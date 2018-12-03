@@ -40,8 +40,7 @@ app.get('/g/:username/:recipe', (request, response) => {
             "description": "Cut the potato",
             "ingredients": [{
                 "item": "Russet potato",
-                "amount": 1,
-                "unit": ""
+                "amount": 1
             }],
             "equipment": [{
                 "item": "Potato slicer"
@@ -51,8 +50,7 @@ app.get('/g/:username/:recipe', (request, response) => {
                 "unit": "minutes"
             },
             "cookTime": {
-                "amount": 0,
-                "unit": ""
+                "amount": 0
             },
             "images": [{
                 "src": "https://c1.staticflickr.com/4/3383/3189599841_0e25065384_b.jpg",
@@ -75,14 +73,25 @@ app.get('/g/:username/:recipe', (request, response) => {
                 "amount": 3,
                 "unit": "minutes"
             },
-            "cookTime": {
-                "amount": 0,
-                "unit": ""
-            },
             "images": [{
                 "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Pinni.JPG/450px-Pinni.JPG",
                 "description": "This is called pinni"
             }],
+        }, {
+            "description": "Add more powdered sugar just because",
+            "ingredients": [{
+                "item": "Powdered sugar",
+                "min": 1,
+                "max": 3,
+                "unit": "cup"
+            }],
+            "equipment": [{
+                "item": "Mixing bowl"
+            }],
+            "prepTime": {
+                "amount": 60,
+                "unit": "seconds"
+            }
         }]
     }
 
