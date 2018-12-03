@@ -18,6 +18,8 @@ class Recipe extends PolymerElement {
           padding-bottom: 4px;
           background-color: #f0f0f0;
           border-bottom: solid 1px #ababab;
+          position: sticky;
+          top: 0;
         }
 
         #titlebar .right {
@@ -79,7 +81,9 @@ class Recipe extends PolymerElement {
         <em>Recipe by [[data.author]]</em><br><br>
         Serves [[data.servings]]<br>
         Prep Time: [[prepTime]] min<br>
-        Cook Time: [[cookTime]] min<br>
+        <template is="dom-if" if="{{cookTime}}">
+          Cook Time: [[cookTime]] min<br>
+        </template>
         <br>
 
         <template is="dom-repeat" items="{{data.prelude.images}}">
@@ -96,8 +100,15 @@ class Recipe extends PolymerElement {
         [[data.prelude.description]]
 
         <h2>Ingredients</h2>
-        <ul><template is="dom-repeat" items="{{ingredients}}">
-          <li>[[item]]</li>
+        <ul><template is="dom-repeat" items="{{ingredientsArray}}">
+          <li>
+            <template is="dom-if" if="{{item.amount}}">
+              [[item.amount]] [[item.item]]
+            </template>
+            <template is="dom-if" if="{{item.min}}">
+              [[item.min]] - [[item.max]] [[item.item]]
+            </template>
+          </li>
         </template></ul>
 
         <h2>Equipment Needed</h2>
@@ -145,8 +156,12 @@ class Recipe extends PolymerElement {
         type: String,
       },
       'ingredients': {
+        type: Object,
+        value: {},
+      },
+      'ingredientsArray': {
         type: Array,
-        value: [],
+        value: []
       },
       'equipment': {
         type: Array,
@@ -194,14 +209,32 @@ class Recipe extends PolymerElement {
       this.cookTime += step.cookTime.amount;
       this.prepTime += step.prepTime.amount;
       step.ingredients.forEach(ingredient => {
-        this.ingredients.push(`${ingredient.amount} ${ingredient.item}`);
+        if (this.ingredients[ingredient.item]) {
+          if (ingredient.amount) {
+            this.ingredients[ingredient.item].amount += ingredient.amount;
+          } else {
+            this.ingredients[ingredient.item].min += ingredient.min;
+            this.ingredients[ingredient.item].max += ingredient.max;
+          }
+        } else {
+          this.ingredients[ingredient.item] = {
+            item: ingredient.item
+          };
+          if (ingredient.amount) {
+            this.ingredients[ingredient.item].amount = ingredient.amount;
+          } else {
+            this.ingredients[ingredient.item].min = ingredient.min;
+            this.ingredients[ingredient.item].max = ingredient.max;
+          }
+        }
       });
       step.equipment.forEach(equip => {
         if (!this.equipment.includes(equip.item)) {
           this.equipment.push(equip.item);
         }
       });
-    })
+    });
+    this.ingredientsArray = Object.values(this.ingredients);
   }
 }
 
