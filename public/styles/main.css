@@ -1,0 +1,27 @@
+body {
+    margin: 0px;
+    font-family: 'Roboto Slab', serif;
+}
+app-toolbar {
+    background-color: green;
+    color: white;
+}
+#splashscreen {
+    opacity: 1;
+    background-color: green;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    color: white;
+    font-size: 40pt;
+    text-align: center;
+    padding-top: 40vh;
+    transition: all 0.3s;
+}
+#splashscreen.hide {
+    opacity: 0;
+    z-index: -1;
+}

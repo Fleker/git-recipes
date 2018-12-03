@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <script type="module">
+            import '@polymer/app-layout/app-layout.js';
+            import '@polymer/paper-icon-button/paper-icon-button.js';
+            import '@polymer/iron-icons/iron-icons.js';
+            import './src/recipe.js'
+        </script>
+        <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+        <link href="public/styles/main.css" rel="stylesheet">
+        <title>Recipes.tech</title>
+</head>
+
+<body>
+        <app-header reveals>
+                <app-toolbar>
+                    <paper-icon-button icon="menu"></paper-icon-button>
+                    <div main-title>Recipes.tech</div>
+                </app-toolbar>
+                <app-drawer id="drawer" swipe-open>
+                    Nothing to see here!
+                </app-drawer>
+            </app-header>
+            
+            <recipe-body recipe-id="g/fleker/potato">
+            
+            </recipe-body>
+            
+            <script>
+                const drawer = document.querySelector('app-drawer');
+                document.querySelector('paper-icon-button')
+                    .addEventListener('click', function() {
+                        drawer.toggle();
+                    });
+            
+                window.addEventListener('load', () => {
+                    document.getElementById('splashscreen').classList.add('hide');
+                });
+            </script>
+    <div id='splashscreen'>
+        Loading your cookbook...
+    </div>
+
+    Hello. You can use this site to browse recipes. You can use Git to create your own!
+
+    <h1>Our top picks</h1>
+    <ul>
+        <li><a href='/g/fleker/potato'>Potato</a></li>
+    </ul>
+</body>
+</html>

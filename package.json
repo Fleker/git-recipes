@@ -1,0 +1,24 @@
+{
+  "name": "recipes-tech",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.2",
+    "@polymer/iron-icons": "^3.0.0",
+    "@polymer/paper-icon-button": "^3.0.1",
+    "@polymer/polymer": "^3.1.0",
+    "@webcomponents/webcomponentsjs": "^2.2.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "ejs": "^2.6.1"
+  },
+  "devDependencies": {
+    "polymer-cli": "^1.9.1"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/polymer build && sh ./scripts/postbuild.sh",
+    "serve": "yarn build && node index.js",
+    "serve:polymer": "./node_modules/.bin/polymer serve"
+  }
+}

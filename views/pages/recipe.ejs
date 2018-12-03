@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body>
+    <% include ../partials/scaffolding.ejs %>
+    <div id='splashscreen'>
+        Loading recipe...
+    </div>
+
+    <recipe-body recipe-id="<%= recipeId %>" recipe-data="<%= data %>">
+    </recipe-body>
+</body>
+</html>

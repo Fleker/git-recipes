@@ -1,0 +1,9 @@
+# Build files
+/build/
+/node_modules/
+/public/node_modules/
+/public/src/
+
+# Temp files
+yarn.lock
+yarn-error.log
