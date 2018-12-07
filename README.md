@@ -21,10 +21,13 @@ The `collections` key allows one to browse a list of all recipes by visiting the
     },
     "collections": {
         "desserts": {
-            "recipes": [
-                "potato-candy",
-                "caramel-apple"
-            ]
+            "recipes": [{
+                "key": "potato-candy",
+                "label": "Potato Candy"
+            }, {
+                "key": "caramel-apple",
+                "label": "Caramel Apple"
+            }]
         }
     }
 }

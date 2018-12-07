@@ -34,6 +34,9 @@ class TitleBar extends PolymerElement {
       <table id='titlebar'><tr>
         <td class='left'>
           [[author]]/[[recipeName]]
+          <a href="/g/[[author]]/[[recipeName]]">
+            <iron-icon icon="foler-open"></iron-icon>
+          </a>
         </td>
         <td class='right'>
           <iron-icon icon="star"></iron-icon> [[stars]]

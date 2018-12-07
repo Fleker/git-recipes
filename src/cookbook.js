@@ -49,7 +49,7 @@ class Cookbook extends PolymerElement {
           <h2>[[item.key]]</h2>
           <ul>
           <template is="dom-repeat" items="{{item.value}}">
-            <li><a href="/[[recipeId]]/[[item]]">[[item]]</a></li>
+            <li><a href="/[[recipeId]]/[[item.key]]">[[item.label]]</a></li>
           </template>
           </ul>
         </template>
