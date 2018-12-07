@@ -1,6 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-icons/iron-icons.js';
 import './carousel-image.js';
+import './styled-card.js';
 import './titlebar.js';
 import './video-youtube.js';
 
@@ -10,28 +11,6 @@ class Recipe extends PolymerElement {
       <style>
         :host {
           display: inline-block;
-        }
-
-        #card {
-          background-color: #f9f9f9;
-          border: solid 1px #999;
-          border-radius: 12px;
-          max-width: 40em;
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: 16px;
-          padding-right: 16px;
-          margin-top: 24px;
-          padding-bottom: 36px;
-          transition: all 0.5s;
-        }
-
-        #card h1 {
-          margin-bottom: 0px;
-        }
-
-        #card h2 {
-          font-size: 14pt;
         }
 
         .direction {
@@ -47,7 +26,7 @@ class Recipe extends PolymerElement {
 
         </style>
       <title-bar stars='[[stars]]' recipe-id='[[recipeId]]'></title-bar>
-      <div id='card'>
+      <styled-card>
         <h1>[[data.recipe]]</h1>
         <small>[[hashtags]]</small><br><br>
         <em>Recipe by [[data.author]]</em><br><br>
@@ -115,7 +94,7 @@ class Recipe extends PolymerElement {
 
           </div></li>
         </template></ol>
-      </div>
+      </styled-card>
     `;
   }
   static get properties () {

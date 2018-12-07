@@ -1,4 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import './styled-card.js';
 import './titlebar.js';
 
 class Cookbook extends PolymerElement {
@@ -7,28 +8,6 @@ class Cookbook extends PolymerElement {
       <style>
         :host {
           display: inline-block;
-        }
-
-        #card {
-          background-color: #f9f9f9;
-          border: solid 1px #999;
-          border-radius: 12px;
-          max-width: 40em;
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: 16px;
-          padding-right: 16px;
-          margin-top: 24px;
-          padding-bottom: 36px;
-          transition: all 0.5s;
-        }
-
-        #card h1 {
-          margin-bottom: 0px;
-        }
-
-        #card h2 {
-          font-size: 14pt;
         }
 
         .direction {
@@ -44,7 +23,7 @@ class Cookbook extends PolymerElement {
 
         </style>
       <title-bar id='titlebar' stars='[[stars]]' recipe-id='[[recipeId]]'></title-bar>
-      <div id='card'>
+      <styled-card>
         <template is="dom-repeat" items="{{collections}}">
           <h2>[[item.key]]</h2>
           <ul>
@@ -53,7 +32,7 @@ class Cookbook extends PolymerElement {
           </template>
           </ul>
         </template>
-      </div>
+      </styled-card>
     `;
   }
   static get properties () {

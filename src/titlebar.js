@@ -28,6 +28,7 @@ class TitleBar extends PolymerElement {
 
         #titlebar a {
           color: black;
+          text-decoration: none;
         }
 
         </style>
@@ -39,7 +40,9 @@ class TitleBar extends PolymerElement {
           </a>
         </td>
         <td class='right'>
-          <iron-icon icon="star"></iron-icon> [[stars]]
+          <a href='[[forkLink]]/stargazers' target='_blank'>
+            <iron-icon icon="star"></iron-icon> [[stars]]
+          </a>
           &emsp;
           <a href='[[forkLink]]' target='_blank'><iron-icon icon="create"></iron-icon></a>
         </td>
