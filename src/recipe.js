@@ -54,7 +54,7 @@ class Recipe extends PolymerElement {
         <ul><template is="dom-repeat" items="{{ingredientsArray}}">
           <li>
             <template is="dom-if" if="{{item.amount}}">
-              [[item.amount]] 
+              [[item.amount]]
               <template is="dom-if" if="{{item.unit}}">
                 [[item.unit]] of
               </template>
@@ -95,6 +95,8 @@ class Recipe extends PolymerElement {
           </div></li>
         </template></ol>
       </styled-card>
+
+      <script type="application/ld+json" id="recipeContent"></script>
     `;
   }
   static get properties () {
@@ -291,6 +293,50 @@ class Recipe extends PolymerElement {
       });
     });
     this.ingredientsArray = Object.values(this.ingredients);
+
+    this.$.recipeContent.innerHTML = JSON.stringify(this.generateRecipeContent())
+  }
+
+  generateRecipeContent() {
+    return {
+      "@context": "http://schema.org",
+      "@type": "Recipe",
+      "name": this.data.recipe,
+      "image": this.data.prelude.images.map(image => image.src),
+      "author": {
+        "@type": "Person",
+        "name": this.data.author
+      },
+      "description": this.data.prelude.description,
+      "prepTime": `PT${this.prepTime}M`,
+      "cookTime": `PT${this.cookTime}M`,
+      "totalTime": `PT${this.prepTime + this.cookTime}M`,
+      "recipeYield": `${this.data.servings} servings`,
+      "keywords": this.data.tags,
+      "recipeIngredient": this.ingredientsArray.map(ingredient => {
+        let out = ''
+        if (ingredient.amount) {
+          out += ingredient.amount
+          if (ingredient.unit) {
+            out += ` ${ingredient.unit} of`
+          }
+          out += ` ${ingredient.item}`
+        } else {
+          out += `${ingredient.min} - ${ingredient.max}`
+          if (ingredient.unit) {
+            out += ` ${ingredient.unit} of`
+          }
+          out += ` ${ingredient.item}`
+        }
+        return out
+      }),
+      "recipeInstructions": this.data.steps.map(step => {
+        return {
+          "@type": "HowToStep",
+          "text": step.description
+        }
+      })
+    }
   }
 
   unitMatch(unitIn) {
