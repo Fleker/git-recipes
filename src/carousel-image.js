@@ -9,6 +9,7 @@ class CarouselImage extends PolymerElement {
           width: 90%;
           max-width: calc(40em - 96px);
           border-radius: 8px;
+          border: solid 1px #999;
         }
 
         div {

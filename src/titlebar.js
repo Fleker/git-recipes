@@ -7,18 +7,18 @@ class TitleBar extends PolymerElement {
       <style>
         :host {
           display: inline-block;
+          position: sticky;
+          top: 0;
+          z-index: 2;
         }
 
         #titlebar {
-          width: calc(100vw - 17px);
+          width: 100vw;
           padding-left: 48px;
           padding-top: 4px;
           padding-bottom: 4px;
           background-color: #f0f0f0;
           border-bottom: solid 1px #ababab;
-          position: sticky;
-          top: 0;
-          z-index: 2;
         }
 
         #titlebar .right {
