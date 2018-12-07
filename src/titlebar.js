@@ -10,7 +10,7 @@ class TitleBar extends PolymerElement {
         }
 
         #titlebar {
-          width: 100vw;
+          width: calc(100vw - 17px);
           padding-left: 48px;
           padding-top: 4px;
           padding-bottom: 4px;
@@ -35,7 +35,7 @@ class TitleBar extends PolymerElement {
         <td class='left'>
           [[author]]/[[recipeName]]
           <a href="/g/[[author]]/[[recipeName]]">
-            <iron-icon icon="foler-open"></iron-icon>
+            <iron-icon icon="folder-open"></iron-icon>
           </a>
         </td>
         <td class='right'>
