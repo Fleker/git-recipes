@@ -6,6 +6,11 @@ app-toolbar {
     background-color: green;
     color: white;
 }
+app-toolbar a {
+    color: white;
+    border: none;
+    text-decoration: none;
+}
 #splashscreen {
     opacity: 1;
     background-color: green;
@@ -20,6 +25,7 @@ app-toolbar {
     text-align: center;
     padding-top: 40vh;
     transition: all 0.3s;
+    z-index: 100;
 }
 #splashscreen.hide {
     opacity: 0;

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -18,8 +19,7 @@ app.get('/', (request, response) => {
     return;
 });
 
-// Add new resource
-app.get('/g/:username/:recipe', (request, response) => {
+app.get('/sample/potato-candy', (request, response) => {
     const sampleData = {
         "author": "Nick Felker",
         "recipe": "Potato Candy",
@@ -96,8 +96,88 @@ app.get('/g/:username/:recipe', (request, response) => {
     }
 
     response.render('pages/recipe', {
-        recipeId: `g/${request.params.username}/${request.params.recipe}`,
-        data: JSON.stringify(sampleData)
+        recipeId: `g/sample/project`,
+        data: JSON.stringify(sampleData),
+        stars: 15
+    });
+    return;
+})
+
+app.get('/sample/cookbook', async (request, response) => {
+    const sampleData = {
+        "recipes": {
+            "potato-candy": "desserts/potatos/candy.json",
+            "caramel-apple": "caramel-apple.json"
+        },
+        "collections": {
+            "Desserts": {
+                "recipes": [
+                    "potato-candy",
+                    "caramel-apple"
+                ]
+            }
+        }
+    }
+
+    response.render('pages/cookbook', {
+        recipeId: `g/sample/project`,
+        data: JSON.stringify(sampleData),
+        stars: 14
+    });
+    return;
+})
+
+// Add new resource
+app.get('/g/:username/:repo', async (request, response) => {
+    const {username, repo} = request.params
+    try {
+        const recipeFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipe.json`)
+        const recipeData = await recipeFetch.json()
+
+        const starsFetch = await fetch(`https://api.github.com/repos/${username}/${repo}`)
+        const starsData = await starsFetch.json()
+
+        response.render('pages/recipe', {
+            recipeId: `g/${request.params.username}/${request.params.repo}`,
+            data: JSON.stringify(recipeData),
+            stars: starsData.stargazers_count
+        });
+    } catch(e) {
+        // Try to render the cookbook
+        const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.json`)
+        const cookbookData = await cookbookFetch.json()
+
+        const starsFetch = await fetch(`https://api.github.com/repos/${username}/${repo}`)
+        const starsData = await starsFetch.json()
+
+        response.render('pages/cookbook', {
+            recipeId: `g/${request.params.username}/${request.params.repo}`,
+            data: JSON.stringify(cookbookData),
+            stars: starsData.stargazers_count
+        });
+    }
+    return;
+});
+
+
+// Add new resource
+app.get('/g/:username/:repo/:recipe', async (request, response) => {
+    const {username, repo, recipe} = request.params
+    const recipeNavFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/${recipe}.recipes.json`)
+    const recipeNavData = await recipeNavFetch.json()
+
+    const fileLocation = recipeNavData[recipe]
+
+    const recipeFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/${fileLocation}`)
+    const recipeData = await recipeFetch.json()
+
+    const starsFetch = await fetch(`https://api.github.com/repos/${username}/${repo}`)
+    const starsData = await starsFetch.json()
+
+    response.render('pages/recipe', {
+        recipeId: `g/${request.params.username}/${request.params.repo}`,
+        data: JSON.stringify(recipeData),
+        stars: starsData.stargazers_count
     });
     return;
 });

@@ -11,7 +11,8 @@
     "@webcomponents/webcomponentsjs": "^2.2.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "ejs": "^2.6.1"
+    "ejs": "^2.6.1",
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
     "polymer-cli": "^1.9.1"

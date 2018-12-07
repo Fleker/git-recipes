@@ -7,7 +7,36 @@ maintaining version history. Plus, it's easy for others to fork the recipe, make
 and then file a pull request to update it.
 
 ## Hosting
-Each recipe exists as a JSON file which is placed in a GitHub repository called `.recipe.json`. The specification is below.
+
+### Cookbook
+All recipes should be defined in a global manifest file called `.recipes.json`. This maps a given key to the relative filepath of your recipe JSON file.
+
+The `collections` key allows one to browse a list of all recipes by visiting the `/g/{username}/{reponame}` URL.
+
+```
+{
+    "recipes": {
+        "potato-candy": "desserts/potatos/candy.json",
+        "caramel-apple": "caramel-apple.json"
+    },
+    "collections": {
+        "desserts": {
+            "recipes": [
+                "potato-candy",
+                "caramel-apple"
+            ]
+        }
+    }
+}
+```
+
+Then, the URL `/g/{username}/{reponame}/potato-candy` would look for a file in the GitHub repo called `desserts/potatos/candy.json`
+
+Alternatively, each recipe can be hosted in individual repos. In that case, the URL `/g/{username}/{reponame}` would look for a file in the repo called `.recipe.json`
+
+### Recipe JSON
+
+Each recipe exists as a JSON file which is placed in a GitHub repository. The specification is below.
 
 ```
 {
