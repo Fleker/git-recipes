@@ -24,13 +24,18 @@ class Recipe extends PolymerElement {
           }
         }
 
+        input {
+          font-family: 'Roboto Slab', serif;
+          width: 4em;
+        }
+
         </style>
       <title-bar stars='[[stars]]' recipe-id='[[recipeId]]'></title-bar>
       <styled-card>
         <h1>[[data.recipe]]</h1>
         <small>[[hashtags]]</small><br><br>
         <em>Recipe by [[data.author]]</em><br><br>
-        Serves [[data.servings]]<br>
+        Serves <input type="number" id="servings" value$="[[data.servings]]" /><br>
         Prep Time: [[prepTime]] min<br>
         <template is="dom-if" if="{{cookTime}}">
           Cook Time: [[cookTime]] min<br>
@@ -51,17 +56,19 @@ class Recipe extends PolymerElement {
         [[data.prelude.description]]
 
         <h2>Ingredients</h2>
-        <ul><template is="dom-repeat" items="{{ingredientsArray}}">
+        <ul><template is="dom-repeat" items="{{ingredientsArray}}" id="ingredients-repeat" indexAs="index">
           <li>
             <template is="dom-if" if="{{item.amount}}">
-              [[item.amount]]
+              [[arrayItem(ingredientsArray.*, index, 'amount')]]
               <template is="dom-if" if="{{item.unit}}">
                 [[item.unit]] of
               </template>
               [[item.item]]
             </template>
             <template is="dom-if" if="{{item.min}}">
-              [[item.min]] - [[item.max]]
+              [[arrayItem(ingredientsArray.*, index, 'min')]]
+              -
+              [[arrayItem(ingredientsArray.*, index, 'max')]]
               <template is="dom-if" if="{{item.unit}}">
                 [[item.unit]] of
               </template>
@@ -292,9 +299,35 @@ class Recipe extends PolymerElement {
         }
       });
     });
-    this.ingredientsArray = Object.values(this.ingredients);
+    // I need to remap every property, as JS by default will keep values as references to the original object
+    // I do not want this, as I want the original values.
+    this.ingredientsArray = Object.values(this.ingredients).map(i => {
+      return {
+        item: i.item,
+        unit: i.unit,
+        amount: i.amount,
+        min: i.min,
+        max: i.max
+      }
+    })
 
     this.$.recipeContent.innerHTML = JSON.stringify(this.generateRecipeContent())
+
+    // Automatically adjust the ingredient counts for the number of desired servings
+    this.$.servings.oninput = (event) => {
+      const count = parseInt(event.path[0].value)
+      if (count <= 0 || isNaN(count)) return; // We don't need that negativity in our cooking
+      const original = parseInt(event.path[0].defaultValue)
+      this.ingredientsArray.forEach((ingredient, index) => {
+        if (ingredient.amount) {
+          ingredient.amount = Math.ceil(this.ingredients[ingredient.item].amount * count / original)
+        } else {          
+          ingredient.min = Math.ceil(this.ingredients[ingredient.item].min * count / original)
+          ingredient.max = Math.ceil(this.ingredients[ingredient.item].max * count / original)
+        }
+      })
+      this.notifySplices('ingredientsArray')
+    }
   }
 
   generateRecipeContent() {
@@ -337,6 +370,13 @@ class Recipe extends PolymerElement {
         }
       })
     }
+  }
+
+  // https://polymer-library.polymer-project.org/3.0/docs/devguide/data-binding#bind-array-item
+  arrayItem(change, index, path) {
+    // this.get(path, root) returns a value for a path
+    // relative to a root object.
+    return this.get(path, change.base[index]);
   }
 
   unitMatch(unitIn) {
