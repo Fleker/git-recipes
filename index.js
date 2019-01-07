@@ -59,7 +59,6 @@ app.get('/g/:username/:repo', async (request, response) => {
             stars
         });
     } catch(e) {
-        console.error(e)
         // Try to render the cookbook
         const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.json`)
         const cookbookData = await cookbookFetch.json()
@@ -77,12 +76,25 @@ app.get('/g/:username/:repo', async (request, response) => {
 // Add new resource
 app.get('/g/:username/:repo/:recipe', async (request, response) => {
     const {username, repo, recipe} = request.params
-    const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.json`)
-    const cookbookData = await cookbookFetch.json()
+    let cookbookData, recipeData
+    try {
+        const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.json`)
+        cookbookData = await cookbookFetch.json()
+    } catch (e) {
+        console.error(e)
+        response.status(404).send(`Cannot find. Error: ${e}`)
+        return
+    }
     const fileLocation = cookbookData.recipes[recipe]
 
-    const recipeFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/${fileLocation}`)
-    const recipeData = await recipeFetch.json()
+    try {
+        const recipeFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/${fileLocation}`)
+        recipeData = await recipeFetch.json()
+    } catch (e) {
+        console.error(e)
+        response.status(404).send(`Cannot find. Error: ${e}`)
+        return
+    }
 
     response.render('pages/recipe', {
         recipeId: `g/${request.params.username}/${request.params.repo}`,

@@ -242,7 +242,7 @@ class Recipe extends PolymerElement {
 
     this.data = JSON.parse(this.recipeData);
     const {steps, tags} = this.data;
-    this.hashtags = tags.split(',').map(k => `#${k.trim()}`).join(' ');
+    this.hashtags = tags.split(',').map(k => `#${k.trim().replace(/\s/g, '')}`).join(' ');
 
     steps.forEach(step => {
       if (step.prepTime && step.prepTime.unit) {
@@ -260,44 +260,48 @@ class Recipe extends PolymerElement {
         );
       }
 
-      step.ingredients.forEach(ingredient => {
-        if (this.ingredients[ingredient.item]) {
-          if (ingredient.amount) {
-            this.ingredients[ingredient.item].amount += this.unitConversion(
-                ingredient.amount, 
-                ingredient.unit,
-                this.ingredients[ingredient.item].unit,
+      if (step.ingredients) {
+        step.ingredients.forEach(ingredient => {
+          if (this.ingredients[ingredient.item]) {
+            if (ingredient.amount) {
+              this.ingredients[ingredient.item].amount += this.unitConversion(
+                  ingredient.amount, 
+                  ingredient.unit,
+                  this.ingredients[ingredient.item].unit,
+              );
+            } else {
+              this.ingredients[ingredient.item].min += this.unitConversion(
+                  ingredient.min, 
+                  ingredient.unit,
+                  this.ingredients[ingredient.item].unit,
+              );
+              this.ingredients[ingredient.item].max += this.unitConversion(
+                  ingredient.max, 
+                  ingredient.unit,
+                  this.ingredients[ingredient.item].unit,
             );
+            }
           } else {
-            this.ingredients[ingredient.item].min += this.unitConversion(
-                ingredient.min, 
-                ingredient.unit,
-                this.ingredients[ingredient.item].unit,
-            );
-            this.ingredients[ingredient.item].max += this.unitConversion(
-                ingredient.max, 
-                ingredient.unit,
-                this.ingredients[ingredient.item].unit,
-          );
+            this.ingredients[ingredient.item] = {
+              item: ingredient.item,
+              unit: ingredient.unit,
+            };
+            if (ingredient.amount) {
+              this.ingredients[ingredient.item].amount = ingredient.amount;
+            } else {
+              this.ingredients[ingredient.item].min = ingredient.min;
+              this.ingredients[ingredient.item].max = ingredient.max;
+            }
           }
-        } else {
-          this.ingredients[ingredient.item] = {
-            item: ingredient.item,
-            unit: ingredient.unit,
-          };
-          if (ingredient.amount) {
-            this.ingredients[ingredient.item].amount = ingredient.amount;
-          } else {
-            this.ingredients[ingredient.item].min = ingredient.min;
-            this.ingredients[ingredient.item].max = ingredient.max;
+        });
+      }
+      if (step.equipment) {
+        step.equipment.forEach(equip => {
+          if (!this.equipment.includes(equip.item)) {
+            this.equipment.push(equip.item);
           }
-        }
-      });
-      step.equipment.forEach(equip => {
-        if (!this.equipment.includes(equip.item)) {
-          this.equipment.push(equip.item);
-        }
-      });
+        });
+      }
     });
     // I need to remap every property, as JS by default will keep values as references to the original object
     // I do not want this, as I want the original values.
@@ -335,7 +339,7 @@ class Recipe extends PolymerElement {
       "@context": "http://schema.org",
       "@type": "Recipe",
       "name": this.data.recipe,
-      "image": this.data.prelude.images.map(image => image.src),
+      "image": this.data.prelude.images ? this.data.prelude.images.map(image => image.src) : undefined,
       "author": {
         "@type": "Person",
         "name": this.data.author
