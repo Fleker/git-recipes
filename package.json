@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "^8.0.0"
+  },
   "dependencies": {
     "@polymer/app-layout": "^3.0.2",
     "@polymer/iron-icons": "^3.0.0",
@@ -19,7 +22,9 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/polymer build && sh ./scripts/postbuild.sh",
+    "start": "node index.js",
     "serve": "yarn build && node index.js",
-    "serve:polymer": "./node_modules/.bin/polymer serve"
+    "serve:polymer": "./node_modules/.bin/polymer serve",
+    "deploy": "yarn build && gcloud app deploy --project git-recipes"
   }
 }

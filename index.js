@@ -72,7 +72,6 @@ app.get('/g/:username/:repo', async (request, response) => {
     return;
 });
 
-
 // Add new resource
 app.get('/g/:username/:repo/:recipe', async (request, response) => {
     const {username, repo, recipe} = request.params
