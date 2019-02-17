@@ -2,7 +2,7 @@ workflow "Build and deploy on push" {
   on = "push"
   resolves = [
     "npm build",
-    "gcloud deploy",
+    "Deploy",
   ]
 }
 
@@ -23,7 +23,7 @@ action "gcloud auth" {
   needs = ["npm build"]
 }
 
-action "gcloud deploy" {
+action "Deploy" {
   uses = "actions/gcloud/cli@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
   runs = "gcloud app deploy --project git-recipes"
   needs = ["gcloud auth"]
