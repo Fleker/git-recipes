@@ -17,7 +17,7 @@ action "npm build" {
   needs = ["npm install"]
 }
 
-action "gcloud auth" {
+action "Setup gcloud" {
   uses = "actions/gcloud/auth@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
   secrets = ["GCLOUD_AUTH"]
   needs = ["npm build"]
@@ -26,5 +26,5 @@ action "gcloud auth" {
 action "Deploy" {
   uses = "actions/gcloud/cli@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
   runs = "gcloud app deploy --project git-recipes"
-  needs = ["gcloud auth"]
+  needs = ["Setup gcloud"]
 }
