@@ -6,7 +6,7 @@ workflow "Build and deploy on push" {
   ]
 }
 
-action "npm install" {
+action "Install" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   runs = "npm install"
 }
@@ -14,7 +14,7 @@ action "npm install" {
 action "npm build" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   runs = "npm run build"
-  needs = ["npm install"]
+  needs = ["Install"]
 }
 
 action "Setup gcloud" {
