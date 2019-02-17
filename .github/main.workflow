@@ -1,6 +1,9 @@
 workflow "Build and deploy on push" {
   on = "push"
-  resolves = ["GitHub Action for Google Cloud"]
+  resolves = [
+    "GitHub Action for Google Cloud-1",
+    "GitHub Action for npm-1",
+  ]
 }
 
 action "GitHub Action for npm" {
@@ -14,9 +17,14 @@ action "GitHub Action for npm-1" {
   runs = "npm run build"
 }
 
-action "GitHub Action for Google Cloud" {
-  uses = "actions/gcloud/cli@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
+action "GitHub Action for Google Cloud SDK auth" {
+  uses = "actions/gcloud/auth@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
   needs = ["GitHub Action for npm-1"]
-  runs = "gcloud app deploy --project git-recipes"
   secrets = ["GCLOUD_AUTH"]
+}
+
+action "GitHub Action for Google Cloud-1" {
+  uses = "actions/gcloud/cli@1a017b23ef5762d20aeb3972079a7bce2c4a8bfe"
+  needs = ["GitHub Action for Google Cloud SDK auth"]
+  runs = "gcloud app deploy --project git-recipes"
 }
