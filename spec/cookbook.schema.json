@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/fleker/git-recipes/spec/cookbook.schema.json",
+  "title": "Dishout Cookbook Specification",
+  "description": "This file is used to validate whether a given document meets the cookbook specification.",
+  "type": "object",
+  "properties": {
+    "recipes": {
+        "type": "object",
+        "description": "Map of slug-like key to a filepath",
+        "examples": [
+            "{\"potato-candy\": \"desserts/potato.json\"}"
+        ],
+        "additionalProperties": true
+    },
+    "collections": {
+        "type": "object",
+        "description": "Map of categories of recipes to lists",
+        "additionalProperties": {
+            "recipes": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/fleker/git-recipes/spec/recipes.schema.json",
+  "title": "Dishout Recipe Specification",
+  "description": "This file is used to validate whether a given document meets the recipe specification.",
+  "type": "object",
+  "properties": {
+    "author": {
+      "type": "string",
+      "description": "Name of the recipe author"
+    },
+    "recipe": {
+      "type": "string",
+      "description": "Title of the recipe"
+    },
+    "spec": {
+      "type": "string",
+      "description": "Version of the spec used",
+      "enum": [
+        "v0.1.0"
+      ]
+    },
+    "tags": {
+      "type": "string",
+      "description": "Comma-separated list of tags"
+    },
+    "servings": {
+      "type": "number",
+      "description": "Nominal number of servings created"
+    },
+    "prelude": {
+      "type": "object",
+      "description": "Content that appears above the recipe",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Introductory information."
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/image"
+          }
+        },
+        "videos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "description": "Array containing steps to complete the recipe",
+      "items": {
+        "$ref": "#/definitions/step"
+      }
+    }
+  },
+  "required": [
+    "author", "recipe", "spec", "tags", "servings", "steps"
+  ],
+  "definitions": {
+    "equipment": {
+      "type": "object",
+      "description": "Equipment are non-consumable items used in a recipe",
+      "properties": {
+        "item": {
+          "type": "string",
+          "description": "The title of the item"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "URL pointing to the image"
+        },
+        "description": {
+          "type": "string",
+          "description": "Caption for the image"
+        }
+      },
+      "required": [
+        "src"
+      ]
+    },
+    "ingredient": {
+      "type": "object",
+      "description": "An ingredient is a consumable good used in a recipe",
+      "properties": {
+        "item": {
+          "type": "string",
+          "description": "The title of the item"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The amount of the given ingredient to use. Use this if the amount is absolute."
+        },
+        "min": {
+          "type": "number",
+          "description": "The lower end of a range for the amount of an ingredient to use."
+        },
+        "max": {
+          "type": "number",
+          "description": "The upper end of a range for the amount of an ingredient to use."
+        },
+        "unit": {
+          "type": "string",
+          "description": "A measurement of the ingredient",
+          "enum": [
+            "cup", "cups",
+            "tablespoon", "tablespoons", "tbsp",
+            "teaspoon", "teaspoons", "tsp"
+          ]
+        }
+      },
+      "allOf": [{
+        "if": {
+          "properties": {
+            "min": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "max"
+          ]
+        }
+      }],
+      "required": [
+        "item"
+      ]
+    },
+    "step": {
+      "type": "object",
+      "description": "A unit of cooking",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Human-readable instruction unit"
+        },
+        "ingredients": {
+          "type": "array",
+          "description": "List of ingredients uniquely introduced in this step",
+          "items": {
+            "$ref": "#/definitions/ingredient"
+          }
+        },
+        "equipment": {
+          "type": "array",
+          "description": "List of equipment uniquely introduced in this step",
+          "items": {
+            "$ref": "#/definitions/equipment"
+          }
+        },
+        "prepTime": {
+          "$ref": "#/definitions/time",
+          "description": "The amount of time for indirect actions"
+        },
+        "cookTime": {
+          "$ref": "#/definitions/time",
+          "description": "The amount of time for direct actions"
+        },
+        "images": {
+          "type": "array",
+          "description": "Images for the given step",
+          "items": {
+            "$ref": "#/definitions/image"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "time": {
+      "type": "object",
+      "description": "A representation of time",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "Numerical time"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit for time measurement",
+          "enum": [
+            "minute", "minutes", "min", "m",
+            "second", "seconds", "sec", "s",
+            "hour", "hours", "hr", "h"
+          ]
+        }
+      },
+      "required": [
+        "amount", "unit"
+      ]
+    },
+    "video": {
+      "type": "object",
+      "properties": {
+        "youtube": {
+          "type": "string",
+          "description": "For YouTube videos, supply the video ID"
+        }
+      }
+    }
+  }
+}
