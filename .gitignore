@@ -3,7 +3,12 @@
 /node_modules/
 /public/node_modules/
 /public/src/
+/dist/
 
 # Temp files
 yarn.lock
 yarn-error.log
+package-lock.json
+.vscode/
+index.html
+index.js

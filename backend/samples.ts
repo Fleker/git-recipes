@@ -1,4 +1,6 @@
-exports.sampleRecipe = {
+import { Cookbook, Recipe } from "./recipes";
+
+export const sampleRecipe: Recipe = {
     "author": "Nick Felker",
     "recipe": "Potato Candy",
     "spec": "v0.1.0",
@@ -26,9 +28,6 @@ exports.sampleRecipe = {
         "prepTime": {
             "amount": 5,
             "unit": "minutes"
-        },
-        "cookTime": {
-            "amount": 0
         },
         "images": [{
             "src": "https://c1.staticflickr.com/4/3383/3189599841_0e25065384_b.jpg",
@@ -73,7 +72,7 @@ exports.sampleRecipe = {
     }]
 }
 
-exports.sampleCookbook = {
+export const sampleCookbook: Cookbook = {
     "recipes": {
         "potato-candy": "desserts/potatos/candy.json",
         "caramel-apple": "caramel-apple.json"
