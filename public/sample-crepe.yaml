@@ -1,0 +1,59 @@
+author: Nick Felker
+recipe: Sweet Crêpes
+spec: v0.1.0
+tags: sweet, crepe, pastry, dessert
+servings: 5
+prelude:
+  description: |
+    Crêpes are traditionally served on Candlemas, February 2nd. It became known
+    as 'avec Crêpe Day'.
+steps:
+  - description: Mix the flour and salt together in a large mixing bowl.
+    ingredients:
+      - item: Flour
+        amount: 0.75
+        unit: cup
+      - item: Salt
+        amount: 1
+        unit: teaspoon
+    equipment:
+      - item: Mixing bowl
+      - item: Whisk
+    prepTime:
+      amount: 1
+      unit: minute
+  - description: Whisk in the milk and eggs
+    ingredients:
+      - item: Milk
+        amount: 1
+        unit: cup
+      - item: Eggs
+        amount: 2
+    prepTime:
+      amount: 1
+      unit: minute
+  - description: Whisk in the sugar, melted butter, and vanilla
+    ingredients:
+      - item: Sugar
+        amount: 2
+        unit: tablespoon
+      - item: Melted butter
+        amount: 1
+        unit: tablespoon
+      - item: Vanilla extract
+        amount: 0.5
+        unit: teaspoon
+    prepTime:
+      amount: 1
+      unit: minute
+  - description: Sit in the refrigerator for an hour
+    prepTime:
+      amount: 1
+      unit: hour
+  - description: Pour into pan and cook on medium-high heat. Cook until lightly brown, flip.
+    equipment:
+      - item: Pan
+    cookTime:
+      amount: 5
+      unit: minute
+  - description: Optionally serve with toppings

@@ -1,13 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import fetch from 'node-fetch'
+import fs from 'fs'
 import * as Sample from './samples'
 import {github} from './github'
 import { Recipe, Cookbook } from './recipes';
 const yaml = require('js-yaml');
 
 const app = express();
-app.set('port', (process.env.PORT || 5001));
+app.set('port', (process.env.PORT || 5002));
 
 app.use(express.static('public'));
 app.use('public', express.static('public'));
@@ -29,6 +30,16 @@ app.get('/sample/potato-candy', (request: express.Request, response: express.Res
     response.render('pages/recipe', {
         recipeId: `g/sample/project`,
         data: JSON.stringify(Sample.sampleRecipe),
+        stars: 15
+    });
+    return;
+})
+
+app.get('/sample/sweet-crepe', (request: express.Request, response: express.Response) => {
+    const data = yaml.load(fs.readFileSync('./public/sample-crepe.yaml', {encoding: 'utf-8'}))
+    response.render('pages/recipe', {
+        recipeId: `g/sample/project`,
+        data: JSON.stringify(data),
         stars: 15
     });
     return;
