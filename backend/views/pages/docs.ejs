@@ -188,7 +188,8 @@
                 Errors will be sent to the browser console.
             </p>
             <div contenteditable="true" id="validate-recipe"></div>
-            <button id="btn-recipe">Validate</button>
+            <button id="btn-recipe">Validate JSON</button>
+            <button id="btn-recipe-yaml">Validate YAML</button>
     </styled-card>
     <script>
         (async function() {
@@ -198,9 +199,28 @@
             const schema = await res.json()
             const validate = ajv.compile(schema)
             document.getElementById('btn-recipe').onclick = function() {
-                // TODO: Make some affordance for YAML
                 const jsonData = document.getElementById('validate-recipe').innerText
                 const valid = validate(JSON.parse(jsonData))
+                if (valid) {
+                    console.log('Success!')
+                } else {
+                    console.error(validate.errors)
+                }
+            }
+        })()
+    </script>
+    <script type="module">
+        import jsYaml from '/node_modules/js-yaml/dist/js-yaml.mjs'
+        (async function() {
+            const Ajv = window.ajv7.default
+            const ajv = new Ajv()
+            const res = await window.fetch('https://raw.githubusercontent.com/Fleker/git-recipes/master/spec/recipes.schema.json')
+            const schema = await res.json()
+            const validate = ajv.compile(schema)
+            document.getElementById('btn-recipe-yaml').onclick = function() {
+                const yamlData = document.getElementById('validate-recipe').innerText
+                const jsonData = jsYaml.load(yamlData)
+                const valid = validate(jsonData)
                 if (valid) {
                     console.log('Success!')
                 } else {
