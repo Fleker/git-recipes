@@ -33,5 +33,5 @@ jobs:
         uses: google-github-actions/deploy-appengine@main
         with:
           credentials: ${{ secrets.GOOGLE_AUTH }}
-          project: git-recipes
+          project_id: git-recipes
           deliverables: dist/app.yaml
