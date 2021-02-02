@@ -30,14 +30,13 @@ jobs:
         run: npm install && npm run build && sh ./scripts/postbuild.sh
 
       - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
+        uses: google-github-actions/setup-gcloud@master
         with:
-          project_id: git-recipes
           service_account_key: ${{ secrets.GOOGLE_SAK }}
+          export_default_credentials: true
 
       - name: Deploy
         uses: google-github-actions/deploy-appengine@main
         with:
-          credentials: ${{ secrets.GOOGLE_SAK }}
           project_id: git-recipes
           deliverables: dist/app.yaml
