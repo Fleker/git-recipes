@@ -1,5 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { unitConversion } from './unit-utils';
+import { unitConversion, unitMatch } from './unit-utils';
 
 class RecipeUnit extends PolymerElement {
   static get template() {
@@ -13,7 +13,7 @@ class RecipeUnit extends PolymerElement {
       <template is="dom-if" if="{{data.amount}}">
         [[prettyAmount]]
         <template is="dom-if" if="{{data.unit}}">
-          [[data.unit]] of
+          [[prettyUnit]] of
         </template>
         [[data.item]]
       </template>
@@ -22,7 +22,7 @@ class RecipeUnit extends PolymerElement {
         -
         [[data.max]]
         <template is="dom-if" if="{{data.unit}}">
-          [[data.unit]] of
+          [[prettyUnit]] of
         </template>
         [[data.item]]
       </template>
@@ -68,7 +68,9 @@ class RecipeUnit extends PolymerElement {
   prettyPrint(float) {
     const remainder = float - Math.floor(float)
     const fraction = (() => {
-      if (remainder < 1/8) { // 0.125
+      if (remainder < 1/16) { // 0.0625
+        return ''
+      } else if (remainder < 1/8) { // 0.125
         return `¹/₈`
       } else if (remainder < 1/6) { // 0.167
         return `¹/₆`
@@ -98,12 +100,21 @@ class RecipeUnit extends PolymerElement {
     return `${fraction}`
   }
 
+  prettyPrintUnit(amount) {
+    const baseUnit = unitMatch(this.data.unit)
+    if (amount === 1) {
+      return baseUnit
+    }
+    return `${baseUnit}s`
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.initialServings = this.servings
     this.initialData = {...this.data}
     console.log(this.initialServings)
     this.prettyAmount = this.prettyPrint(this.data.amount)
+    this.prettyUnit = this.prettyPrintUnit(this.data.amount)
     this.$.box.onclick = () => {
       console.log(this.amount, this.data.unit)
       if (this.data.unit) {
@@ -123,6 +134,7 @@ class RecipeUnit extends PolymerElement {
       // this is a really bad hack
       if (this.initialData.unit) {
         this.prettyAmount = this.prettyPrint(this.data.amount)
+        this.prettyUnit = this.prettyPrintUnit(this.data.amount)
       } else {
         this.prettyAmount = Math.ceil(this.data.amount)
       }
