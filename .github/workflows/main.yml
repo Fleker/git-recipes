@@ -31,11 +31,11 @@ jobs:
      
       - name: DL Keyfile
         env:
-          auth: ${{secrets.GOOGLE_AUTH}}
+          auth: ${{ secrets.GOOGLE_AUTH }}
         run: echo "$auth" | base64 -d > keyfile.json
       
       - name: Auth
-        run: gcloud auth activate-service-account --key-file=./keyfile.json
+        run: gcloud auth activate-service-account github-deployer@git-recipes.iam.gserviceaccount.com --key-file=keyfile.json
      
       - name: Deploy
 #         run: gcloud app deploy --project git-recipes
