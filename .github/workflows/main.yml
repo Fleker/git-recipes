@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: NPM setup
-        run: npm install && npm run build && ./scripts/postbuild.sh && cd dist
+        run: npm install && npm run build && sh ./scripts/postbuild.sh && cd dist
 
       - name: Deploy
         uses: google-github-actions/deploy-appengine@main
