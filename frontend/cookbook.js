@@ -14,6 +14,10 @@ class Cookbook extends PolymerElement {
           margin-bottom: 24px;
         }
 
+        a.small {
+          font-size: small;
+        }
+
         @media (max-width: 600px) {
           #card {
             width: 100%;
@@ -32,6 +36,12 @@ class Cookbook extends PolymerElement {
           </template>
           </ul>
         </template>
+        <h2>Full List</h2>
+        <ul>
+        <template is="dom-repeat" items="{{allRecipes}}">
+          <li><a href="/[[recipeId]]/[[item.key]]" class="small">[[item.key]]</a></li>
+        </template>
+        </ul>
       </styled-card>
     `;
   }
@@ -42,6 +52,9 @@ class Cookbook extends PolymerElement {
         reflectToAttribute: true,
       },
       'collections': {
+        type: Array,
+      },
+      'allRecipes': {
         type: Array,
       },
       'recipeId': {
@@ -65,6 +78,13 @@ class Cookbook extends PolymerElement {
       this.collections.push({
         key,
         value: value.recipes
+      })
+    })
+    this.allRecipes = []
+    Object.entries(data.recipes).forEach(entry => {
+      const [key, value] = entry
+      this.allRecipes.push({
+        key,
       })
     })
   }
