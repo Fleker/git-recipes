@@ -30,7 +30,9 @@ jobs:
         run: npm install && npm run build 
      
       - name: DL Keyfile
-        run: echo "${{ secrets.GOOGLE_AUTH }}" | base64 -d > keyfile.json
+        env:
+          auth: ${{secrets.GOOGLE_AUTH}}
+        run: echo "$auth" | base64 -d > keyfile.json
       
       - name: Auth
         run: gcloud auth activate-service-account --key-file=./keyfile.json
