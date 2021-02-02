@@ -26,6 +26,11 @@ app.get('/', (request: express.Request, response: express.Response) => {
     return;
 });
 
+app.get('/docs', (request: express.Request, response: express.Response) => {
+    response.render('pages/docs');
+    return;
+});
+
 app.get('/sample/potato-candy', (request: express.Request, response: express.Response) => {
     response.render('pages/recipe', {
         recipeId: `g/sample/project`,

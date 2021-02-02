@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body>
+    <% include ../partials/scaffolding.ejs %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ajv/7.0.4/ajv7.min.js" integrity="sha512-uDIXRRy7u6XjbS2g8ZIDYjeEDpiAuzt7JMhTOT5Tdg2CXiGDusKNChv2z/7dpCtQT7oZRRrraQR38zHuQeCyzg==" crossorigin="anonymous"></script>
+    <div id='splashscreen'>
+        Loading the kitchen...
+    </div>
+
+    <style>
+        code {
+            white-space: pre;
+            background-color: #efefef;
+            display: block;
+            padding-left: 16px;
+            border: solid 1px #cdcdcd;
+        }
+        div[contenteditable] {
+            border: solid 1px #cdcdcd;
+            white-space: pre;
+            min-height: 100px;
+            font-size: 9pt;
+            font-family: monospace;
+        }
+    </style>
+    <styled-card>
+            <h1>Make my own recipes</h1>
+            <h2>Cookbook</h2>
+            <p>
+                All recipes should be defined in a global manifest file called `.recipes.json`. 
+                This maps a given key to the relative filepath of your recipe JSON file.
+            </p>
+            <p>
+                The `collections` key allows one to browse a list of all recipes by visiting
+                the `/g/{username}/{reponame}` URL.
+            </p>
+            <p>
+                Visit the
+                <a href="https://github.com/Fleker/git-recipes/blob/master/spec/cookbook.schema.json">JSON schema</a>
+                to learn more.
+            </p>
+            <code>
+{
+    "recipes": {
+        "potato-candy": "desserts/potatos/candy.json",
+        "caramel-apple": "caramel-apple.json"
+    },
+    "collections": {
+        "desserts": {
+            "recipes": [{
+                "key": "potato-candy",
+                "label": "Potato Candy"
+            }, {
+                "key": "caramel-apple",
+                "label": "Caramel Apple"
+            }]
+        }
+    }
+}
+            </code>
+            <p>
+                Then, the URL `/g/{username}/{reponame}/potato-candy` would look for a 
+                file in the GitHub repo called `desserts/potatos/candy.json`
+            </p>
+            <p>
+                Alternatively, each recipe can be hosted in individual repos.
+                In that case, the URL `/g/{username}/{reponame}` would look for a file
+                in the repo called `.recipe.json`
+            </p>
+            <h3>Cookbook validator</h3>
+            <p>
+                Enter your recipe below to check it against the JSON schema.
+                Errors will be sent to the browser console.
+            </p>
+            <div contenteditable="true" id="validate-cookbook"></div>
+            <button id="btn-cookbook">Validate</button>
+            <script>
+                (async function() {
+                    const Ajv = window.ajv7.default
+                    const ajv = new Ajv({ strict: false }) // FIXME later
+                    const res = await window.fetch('https://raw.githubusercontent.com/Fleker/git-recipes/master/spec/cookbook.schema.json')
+                    const schema = await res.json()
+                    const validate = ajv.compile(schema)
+                    document.getElementById('btn-cookbook').onclick = function() {
+                        // TODO: Make some affordance for YAML
+                        const jsonData = document.getElementById('validate-cookbook').innerText
+                        const valid = validate(JSON.parse(jsonData))
+                        if (valid) {
+                            console.log('Success!')
+                        } else {
+                            console.error('Invalid', validate.errors)
+                        }
+                    }
+                })()
+            </script>
+
+            <h2>Recipe JSON</h2>
+            <p>
+                Each recipe exists as a JSON file which is placed in a GitHub repository.
+                Alternatively, these may be YAML files.
+                The specification is below.
+            </p>
+            <p>
+                Visit the
+                <a href="https://github.com/Fleker/git-recipes/blob/master/spec/recipes.schema.json">JSON schema</a>
+                to learn more.
+            </p>
+            <code>
+{
+    "author": "Nick Felker",
+    "recipe": "Potato Candy",
+    "spec": "v0.1.0",
+    "tags": "potato, candy",
+    "servings": 24,
+    "prelude": {
+        "description": "Potato candy is...",
+        "images": [{
+            "src": "http://example.com/potato1.png",
+            "description": "Potato"
+        }],
+        "videos": [{
+            "youtube": "youtubeid"
+        }]
+    },
+    "steps": [{
+        "description": "Cut the potato",
+        "ingredients": [{
+            "item": "Russet potato",
+            "amount": 1,
+            "unit": ""
+        }],
+        "equipment": [{
+            "item": "Potato slicer"
+        }],
+        "prepTime": {
+            "amount": 5,
+            "unit": "minutes"
+        },
+        "cookTime": {
+            "amount": 0,
+            "unit": ""
+        },
+        "images": [{
+            "src": "http://example.com/potato2.png",
+            "description": "Sliced potato"
+        }],
+        "videos": [{
+            "youtube": "youtubeid"
+        }]
+    }, {
+        "description": "Mix in powdered sugar until mxied well",
+        "ingredients": [{
+            "item": "Powdered sugar",
+            "min": 4,
+            "max": 6,
+            "unit": "cups"
+        }],
+        "equipment": [{
+            "item": "Mixing bowl"
+        }, {
+            "item": "Wooden spoon"
+        }],
+        "prepTime": {
+            "amount": 3,
+            "unit": "minutes"
+        },
+        "cookTime": {
+            "amount": 0,
+            "unit": ""
+        },
+        "images": [{
+            "src": "http://example.com/potato3.png",
+            "description": "Mixed potato"
+        }],
+        "videos": [{
+            "youtube": "youtubeid"
+        }]
+    }]
+}
+            </code>
+            <h3>Recipe validator</h3>
+            <p>
+                Enter your recipe below to check it against the JSON schema.
+                Errors will be sent to the browser console.
+            </p>
+            <div contenteditable="true" id="validate-recipe"></div>
+            <button id="btn-recipe">Validate</button>
+    </styled-card>
+    <script>
+        (async function() {
+            const Ajv = window.ajv7.default
+            const ajv = new Ajv()
+            const res = await window.fetch('https://raw.githubusercontent.com/Fleker/git-recipes/master/spec/recipes.schema.json')
+            const schema = await res.json()
+            const validate = ajv.compile(schema)
+            document.getElementById('btn-recipe').onclick = function() {
+                // TODO: Make some affordance for YAML
+                const jsonData = document.getElementById('validate-recipe').innerText
+                const valid = validate(JSON.parse(jsonData))
+                if (valid) {
+                    console.log('Success!')
+                } else {
+                    console.error(validate.errors)
+                }
+            }
+        })()
+    </script>
+</body>
+</html>
