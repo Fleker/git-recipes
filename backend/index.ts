@@ -5,10 +5,12 @@ import fs from 'fs'
 import * as Sample from './samples'
 import {github} from './github'
 import { Recipe, Cookbook } from './recipes';
+import SearchManager from './search'
 const yaml = require('js-yaml');
 
 const app = express();
-app.set('port', (process.env.PORT || 5002));
+const searchEng = new SearchManager()
+app.set('port', (process.env.PORT || 5003));
 
 app.use(express.static('public'));
 app.use('public', express.static('public'));
@@ -89,6 +91,7 @@ app.get('/g/:username/:repo', async (request: express.Request, response: express
     try {
         const recipeFetch = await fetch(github.getDefaultRecipeUrl(username, repo), {})
         const recipeData = await recipeFetch.json()
+        await searchEng.storeResult(`${username}/${repo}`, recipeData)
         renderRecipe(request, response, stars, recipeData)
     } catch(e) {
         console.warn(`Could not find default recipe file`, e)
@@ -115,6 +118,7 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
         const recipeFetch = await fetch(github.getUrl(username, repo, fileLocation))
         const recipeData = await recipeFetch.json()
         const recipeJson = preprocessRecipeYaml(fileLocation, recipeData)
+        await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeData)
         renderRecipe(request, response, stars, recipeJson)
     } catch (e) {
         console.error(e)
@@ -123,6 +127,14 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
     }
     return;
 });
+
+app.get('/search/:tag/json', async (request: express.Request, response: express.Response) => {
+    const {tag} = request.params
+    const records = await searchEng.getTopResults(tag)
+    response.status(200).json({
+        records
+    })
+})
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

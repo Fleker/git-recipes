@@ -15,6 +15,7 @@
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "firebase-admin": "^9.4.2",
     "js-yaml": "^4.0.0",
     "node-fetch": "^2.3.0"
   },
@@ -33,6 +34,6 @@
     "start": "node index.js",
     "serve": "bash ./scripts/serve.sh",
     "serve:polymer": "polymer serve",
-    "deploy": "yarn build && sh ./scripts/postbuild.sh && cd dist && gcloud app deploy --project git-recipes"
+    "deploy": "yarn build && sh ./scripts/postbuild.sh && cd dist && gcloud app deploy --quiet --project git-recipes"
   }
 }
