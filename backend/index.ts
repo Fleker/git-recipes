@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import fetch from 'node-fetch'
 import fs from 'fs'
+import path from 'path'
 import * as Sample from './samples'
 import {github} from './github'
 import { Recipe, Cookbook } from './recipes';
@@ -19,11 +20,12 @@ app.use('public', express.static('public'));
 
 // views is directory for all template files
 console.log(`${__dirname}/public`)
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Index
 app.get('/', (request: express.Request, response: express.Response) => {
+    console.log('Load index')
     response.render('pages/index');
     return;
 });
