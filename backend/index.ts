@@ -92,6 +92,10 @@ function preprocessRecipeYaml(filename: string, data: string): Recipe {
   return JSON.parse(data) as Recipe
 }
 
+function preprocessCookbookYaml(data: string): Cookbook {
+    return yaml.load(data) as Cookbook
+}
+
 // Add new resource
 app.get('/g/:username/:repo', async (request: express.Request, response: express.Response) => {
     const {username, repo} = request.params
@@ -110,6 +114,15 @@ app.get('/g/:username/:repo', async (request: express.Request, response: express
             renderCookbook(request, response, stars, cookbookData)
         } catch (e) {
             console.error('Could not find cookbook', e)
+
+            try {
+                const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.yaml`)
+                const cookbookData = await cookbookFetch.text()
+                const cookbookJson = preprocessCookbookYaml(cookbookData)
+                renderCookbook(request, response, stars, cookbookJson)
+            } catch (e) {
+                console.error('Could not find cookbook either way', e)
+            }
         }
     }
     return;
