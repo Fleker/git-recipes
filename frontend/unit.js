@@ -15,7 +15,14 @@ class RecipeUnit extends PolymerElement {
         <template is="dom-if" if="{{data.unit}}">
           [[prettyUnit]] of
         </template>
-        [[data.item]]
+        <template is="dom-if" if="{{quickLink}}">
+          <a href="{{quickLink}}" target="_blank">
+            [[data.item]]
+          </a>
+        </template>
+        <template is="dom-if" if="{{!quickLink}}">
+          [[data.item]]
+        </template>
       </template>
       <template is="dom-if" if="{{data.min}}">
         [[data.min]]
@@ -24,7 +31,14 @@ class RecipeUnit extends PolymerElement {
         <template is="dom-if" if="{{data.unit}}">
           [[prettyUnit]] of
         </template>
-        [[data.item]]
+        <template is="dom-if" if="{{quickLink}}">
+          <a href="{{quickLink}}" target="_blank">
+            [[data.item]]
+          </a>
+        </template>
+        <template is="dom-if" if="{{!quickLink}}">
+          [[data.item]]
+        </template>
       </template>
     </span>
     `
@@ -50,6 +64,9 @@ class RecipeUnit extends PolymerElement {
         }
       },
       prettyAmount: {
+        type: String
+      },
+      quickLink: {
         type: String
       },
       servings: {
@@ -115,6 +132,7 @@ class RecipeUnit extends PolymerElement {
     console.log(this.initialServings)
     this.prettyAmount = this.prettyPrint(this.data.amount)
     this.prettyUnit = this.prettyPrintUnit(this.data.amount)
+    this.quickLink = quicklinks[this.data.item.toLowerCase()] || false
     this.$.box.onclick = () => {
       console.log(this.amount, this.data.unit)
       if (this.data.unit) {
@@ -143,3 +161,23 @@ class RecipeUnit extends PolymerElement {
 }
 
 customElements.define('recipe-unit', RecipeUnit);
+
+const quicklinks = {
+  // Ingredients
+  "bacon": "https://www.amazon.com/gp/product/B07WYKQBSC/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B07WYKQBSC&linkId=d22637119ac12f30a9a1a6aaefda1e2b",
+  "bacon clices": "https://www.amazon.com/gp/product/B07WYKQBSC/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B07WYKQBSC&linkId=d22637119ac12f30a9a1a6aaefda1e2b",
+  "egg": "https://www.amazon.com/gp/product/B0018AIF8A/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B0018AIF8A&linkId=b9bc072a83aaf7714f18cb99bf57f968",
+  "eggs": "https://www.amazon.com/gp/product/B0018AIF8A/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B0018AIF8A&linkId=b9bc072a83aaf7714f18cb99bf57f968",
+  "flour": "https://www.amazon.com/gp/product/B00H8WLHKU/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00H8WLHKU&linkId=8c51116110f441c4d59389e535972d35",
+  "all-purpose flour": "https://www.amazon.com/gp/product/B00H8WLHKU/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00H8WLHKU&linkId=8c51116110f441c4d59389e535972d35",
+  "sugar": "https://www.amazon.com/gp/product/B00ASDT8A2/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00ASDT8A2&linkId=61722cb404833f2ccb158fc1f1deeeaf",
+  "granulated sugar": "https://www.amazon.com/gp/product/B00ASDT8A2/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00ASDT8A2&linkId=61722cb404833f2ccb158fc1f1deeeaf",
+  "vinegar": "https://www.amazon.com/gp/product/B07985NMQD/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B07985NMQD&linkId=7e1135a968e1a71a9ec8ec1c817cc8e7",
+  "salt": "https://www.amazon.com/gp/product/B0714B7FTK/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B0714B7FTK&linkId=0460a80386375ae1908608ecd08c0648",
+  "vanilla": "https://www.amazon.com/gp/product/B0046EJ570/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B0046EJ570&linkId=ae3474bbfabe5bae85d25e3c255aa7ac",
+  "vanilla extract": "https://www.amazon.com/gp/product/B0046EJ570/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B0046EJ570&linkId=ae3474bbfabe5bae85d25e3c255aa7ac",
+  "jello": "https://www.amazon.com/gp/product/B00AU4P04W/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00AU4P04W&linkId=204f12cb8e72b567c17929806c68e244",
+  "jello mix": "https://www.amazon.com/gp/product/B00AU4P04W/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00AU4P04W&linkId=204f12cb8e72b567c17929806c68e244",
+  "powdered sugar": "https://www.amazon.com/gp/product/B00LPX1KS2/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00LPX1KS2&linkId=afef0e745f7edfa11488d5d8d7042d26",
+  "peanut butter": "https://www.amazon.com/gp/product/B00PJCYOWE/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=dishoutrecipe-20&creative=9325&linkCode=as2&creativeASIN=B00PJCYOWE&linkId=f9823cd26d1d36f1c6ec75906f41c895",
+}
