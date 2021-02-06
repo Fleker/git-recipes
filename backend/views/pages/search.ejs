@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body>
+    <% include ../partials/scaffolding.ejs %>
+    <div id='splashscreen'>
+        Loading recipe...
+    </div>
+    <script type="module">
+        import './styled-card.js';
+    </script>
+    <% if (records.length) { %>
+        <styled-card>
+        <br>
+        <% records.forEach(record => { %>
+            <a href="/g/<%= record[0] %>"><%= record[1] %></a>
+            <br>
+            <small style="font-size: xx-small; color: #555;">
+                <%= record[0] %>
+            </small>
+        <% }) %>
+        </styled-card>
+    <% } else { %>
+        <styled-card>
+            <br>
+            Sorry, there are no records for this search term.
+        </styled-card>
+    <% } %>
+</body>
+</html>

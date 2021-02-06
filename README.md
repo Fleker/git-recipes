@@ -147,6 +147,7 @@ I tried using a few different recipe websites, but I had a few issues with using
 * The websites were cluttered with ads and was slow. I wanted a clean navigation and design.
 * There was a recipe that I followed mostly, but with one change. I wanted a way to literally fork the recipe and add a small patch.
 * The recipes often list what ingredients you need, but not which equipment. When reading a recipe ahead of time, I realized that I needed a baking pan.
+* Recipes often provided enough servings for a whole family. I wanted to be able to easily adjust measurements for my own needs.
 
 The goal of this website is to remedy those issues.
 

@@ -19,7 +19,13 @@ app.use('public', express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
 
 // views is directory for all template files
-console.log(`${__dirname}/public`)
+/*
+const getDirectories = (source: string) =>
+  fs.readdirSync(source, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+*/
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -79,11 +85,11 @@ function renderCookbook(req: express.Request, res: express.Response, stars: numb
   });
 }
 
-function preprocessRecipeYaml(filename: string, data: Recipe) {
+function preprocessRecipeYaml(filename: string, data: string): Recipe {
   if (filename.endsWith('yaml')) {
-    return yaml.load(data)
+    return yaml.load(data) as Recipe
   }
-  return data
+  return JSON.parse(data) as Recipe
 }
 
 // Add new resource
@@ -118,9 +124,9 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
         const cookbookData = await cookbookFetch.json()
         const fileLocation = cookbookData.recipes[recipe]
         const recipeFetch = await fetch(github.getUrl(username, repo, fileLocation))
-        const recipeData = await recipeFetch.json()
+        const recipeData = await recipeFetch.text()
         const recipeJson = preprocessRecipeYaml(fileLocation, recipeData)
-        await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeData)
+        await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeJson)
         renderRecipe(request, response, stars, recipeJson)
     } catch (e) {
         console.error(e)
@@ -136,6 +142,14 @@ app.get('/search/:tag/json', async (request: express.Request, response: express.
     response.status(200).json({
         records
     })
+})
+
+app.get('/search/:tag', async (request: express.Request, response: express.Response) => {
+    const {tag} = request.params
+    const records = await searchEng.getTopResults(tag)
+    response.render('pages/search', {
+        records
+    });
 })
 
 app.listen(app.get('port'), function() {

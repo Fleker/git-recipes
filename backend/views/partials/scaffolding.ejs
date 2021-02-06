@@ -4,6 +4,14 @@
         <a href='/'>Dishout Recipes</a>
         <div main-title>
         </div>
+        <div class="sidelinks">
+            <input type="search" id="in-search" placeholder="Search" />
+            <button id="btn-search">Search</button>
+            &emsp;
+            <a href='/docs'>Docs</a>
+            &emsp;
+            <a href='https://github.com/Fleker/git-recipes'>GitHub</a>
+        </div>
     </app-toolbar>
     <app-drawer id="drawer" swipe-open style="display:none">
         Nothing to see here!
@@ -19,5 +27,10 @@
 
     window.addEventListener('load', () => {
         document.getElementById('splashscreen').classList.add('hide');
+
+        document.getElementById('btn-search').onclick = () => {
+            const term = document.getElementById('in-search').value
+            window.location.href = `/search/${term}`
+        }
     });
 </script>

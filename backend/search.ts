@@ -15,7 +15,15 @@ class SearchManager {
 
   async getTopResults(tag: string): Promise<string[][]> {
     const tagDoc = await this.db.collection('search').doc(tag).get()
+    if (!tagDoc.exists) {
+      console.debug(`No tag ${tag}`)
+      return []
+    }
     const records = tagDoc.data() as Record<string, string>
+    if (!records) {
+      console.debug(`No records for ${tag}`)
+      return []
+    }
     const sanitizedRecords = Object.entries(records).map(([key, val]) => {
       return [key.replace(/[|]/g, '/'), val]
     })

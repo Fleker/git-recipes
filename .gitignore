@@ -12,3 +12,6 @@ package-lock.json
 .vscode/
 index.html
 index.js
+
+# Secrets
+key.json
