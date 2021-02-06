@@ -70,25 +70,25 @@ class RecipeUnit extends PolymerElement {
     const fraction = (() => {
       if (remainder < 1/16) { // 0.0625
         return ''
-      } else if (remainder < 1/8) { // 0.125
+      } else if (remainder <= 1/8) { // 0.125
         return `¹/₈`
-      } else if (remainder < 1/6) { // 0.167
+      } else if (remainder <= 1/6) { // 0.167
         return `¹/₆`
-      } else if (remainder < 1/4) { // 0.25
+      } else if (remainder <= 1/4) { // 0.25
         return `¹/₄`
-      } else if (remainder < 1/3) { // 0.33
+      } else if (remainder <= 1/3) { // 0.33
         return `¹/₃`
-      } else if (remainder < 3/8) { // 0.375
+      } else if (remainder <= 3/8) { // 0.375
         return `³/₈`
-      } else if (remainder < 1/2) { // 0.5
+      } else if (remainder <= 1/2) { // 0.5
         return `¹/₂`
-      } else if (remainder < 5/8) { // 0.625
+      } else if (remainder <= 5/8) { // 0.625
         return `⁵/₈`
-      } else if (remainder < 2/3) { // 0.67
+      } else if (remainder <= 2/3) { // 0.67
         return `²/₃`
-      } else if (remainder < 3/4) { // 0.75
+      } else if (remainder <= 3/4) { // 0.75
         return `³/₄`
-      } else if (remainder < 5/6) { // 0.833
+      } else if (remainder <= 5/6) { // 0.833
         return `⁵/₆`
       } else {
         return `⁷/₈` // 0.875
