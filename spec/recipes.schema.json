@@ -121,20 +121,6 @@
           ]
         }
       },
-      "allOf": [{
-        "if": {
-          "properties": {
-            "min": {
-              "const": true
-            }
-          }
-        },
-        "then": {
-          "required": [
-            "max"
-          ]
-        }
-      }],
       "required": [
         "item"
       ]

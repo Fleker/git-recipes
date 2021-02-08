@@ -19,13 +19,14 @@ app.use('public', express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
 
 // views is directory for all template files
-/*
+
 const getDirectories = (source: string) =>
   fs.readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
-*/
 
+console.log(`${__dirname}/public`)
+console.log(getDirectories(__dirname))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
