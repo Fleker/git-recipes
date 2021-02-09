@@ -5,6 +5,7 @@ cp -r ./backend/views ./dist/views
 cp build/default/frontend/*.js public/src/
 # Host dependencies
 cp -r build/default/node_modules public/node_modules
+ls public
 cp -r ./public ./dist/public
 
 cp app.yaml dist/app.yaml
