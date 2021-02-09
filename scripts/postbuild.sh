@@ -3,6 +3,7 @@ set -x # Show commands
 cp -r ./backend/views ./dist/views
 # Copy compiled components
 cp build/default/frontend/*.js public/src/
+ls -R build/default
 # Host dependencies
 cp -r build/default/node_modules public/node_modules
 ls public
