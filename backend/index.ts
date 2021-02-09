@@ -27,6 +27,7 @@ const getDirectories = (source: string) =>
 
 console.log(`${__dirname}/public`)
 console.log(getDirectories(__dirname))
+console.log(getDirectories(`${__dirname}/public`))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
