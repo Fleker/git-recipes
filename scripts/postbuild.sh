@@ -1,3 +1,5 @@
+set -e
+set -x # Show commands
 # Copy over from serve.sh
 cp -r ./backend/views ./dist/views
 cp -r ./public ./dist/public
