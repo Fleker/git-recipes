@@ -16,8 +16,8 @@
 # Top-level Node.js dependencies:
 
 # Build files
-/build/
-/src/
-/scripts/
-dist/
+# /build/
+# /src/
+# /scripts/
+# dist/
 .vscode/
