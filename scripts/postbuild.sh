@@ -1,12 +1,12 @@
 set -e
 set -x # Show commands
-# Copy over from serve.sh
 cp -r ./backend/views ./dist/views
-cp -r ./public ./dist/public
 # Copy compiled components
 cp build/default/frontend/*.js public/src/
 # Host dependencies
 cp -r build/default/node_modules public/
+cp -r ./public ./dist/public
+
 cp app.yaml dist/app.yaml
 cp package.json dist/package.json
 # cp backend/key.json dist/key.json
