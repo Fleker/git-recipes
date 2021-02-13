@@ -332,7 +332,7 @@ class Recipe extends PolymerElement {
         }
       }
       return {
-        link: false,
+        link: `https://www.amazon.com/gp/search?ie=UTF8&tag=dishoutrecipe-20&linkCode=ur2&linkId=34869d5229e477ff1d706a9abb72c9c8&camp=1789&creative=9325&index=kitchen&keywords=${item}`,
         text: item,
       }
     }))

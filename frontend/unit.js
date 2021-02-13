@@ -132,7 +132,12 @@ class RecipeUnit extends PolymerElement {
     console.log(this.initialServings)
     this.prettyAmount = this.prettyPrint(this.data.amount)
     this.prettyUnit = this.prettyPrintUnit(this.data.amount)
-    this.quickLink = quicklinks[this.data.item.toLowerCase()] || false
+    this.quickLink = (() => {
+      if (quicklinks[this.data.item.toLowerCase()]) {
+        return quicklinks[this.data.item.toLowerCase()]
+      }
+      return `https://www.amazon.com/gp/search?ie=UTF8&tag=dishoutrecipe-20&linkCode=ur2&linkId=34869d5229e477ff1d706a9abb72c9c8&camp=1789&creative=9325&index=kitchen&keywords=${this.data.item}`
+    })()
     this.$.box.onclick = () => {
       console.log(this.amount, this.data.unit)
       if (this.data.unit) {
