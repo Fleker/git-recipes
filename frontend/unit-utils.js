@@ -1,5 +1,16 @@
+const liquid = ['tsp', 'tbsp', 'cup', 'pint', 'quart', 'gallon']
+const solid = ['g', 'kg', 'lbs', 'oz']
+
+export function unitClassifier(unitIn) {
+  if (!unitIn) return
+  const match = unitMatch(unitIn)
+  if (liquid.includes(match)) return 'liquid'
+  if (solid.includes(match)) return 'solid'
+}
+
 export function unitMatch(unitIn) {
-  switch (unitIn) {
+  if (!unitIn) return
+  switch (unitIn.toLowerCase()) {
     // Liquid measurements
     case 'teaspoon':
     case 'teaspoons':
@@ -24,6 +35,24 @@ export function unitMatch(unitIn) {
     case 'gallons':
     case 'gal':
       return 'gallon';
+
+    // Solid measurements
+    case 'oz':
+    case 'ounce':
+    case 'ounces':
+      return 'oz';
+    case 'lbs':
+    case 'pound':
+    case 'pounds':
+      return 'lbs';
+    case 'g':
+    case 'gram':
+    case 'grams':
+      return 'g'
+    case 'kg':
+    case 'kilogram':
+    case 'kilograms':
+      return 'kg';
     
     // Time
     case 'second':
@@ -97,6 +126,31 @@ export const conversionMap = {
     pint: 8,
     quart: 4,
     gallon: 1,
+  },
+
+  oz: {
+    oz: 1,
+    lbs: 0.0625,
+    g: 28.3495,
+    kg: 0.0283495,
+  },
+  lbs: {
+    oz: 16,
+    lbs: 1,
+    g: 453.592,
+    kg: 0.453592,
+  },
+  g: {
+    oz: 0.035274,
+    lbs: 0.00220462,
+    g: 1,
+    kg: 0.001,
+  },
+  kg: {
+    oz: 35.274,
+    lbs: 2.20462,
+    g: 1000,
+    kg: 1,
   },
 
   second: {

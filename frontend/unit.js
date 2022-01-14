@@ -1,5 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { unitConversion, unitMatch } from './unit-utils';
+import { unitClassifier, unitConversion, unitMatch } from './unit-utils';
 
 class RecipeUnit extends PolymerElement {
   static get template() {
@@ -141,16 +141,29 @@ class RecipeUnit extends PolymerElement {
     this.$.box.onclick = () => {
       console.log(this.amount, this.data.unit)
       if (this.data.unit) {
-        const measurement = `
+        const classification = unitClassifier(this.data.unit)
+        if (classification === 'liquid') {
+          const measurement = `
+            ~ ${this.data.item} ~
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal
+          `
+          alert(measurement)
+        } else if (classification === 'solid') {
+          console.log(unitConversion(this.data.amount, this.data.unit, 'kg'))
+          const measurement = `
           ~ ${this.data.item} ~
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal
+          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'oz'))} oz
+          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'lbs'))} lbs
+          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'g'))} g
+          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'kg'))} kg
         `
         alert(measurement)
+        }
       }
     }
     setInterval(() => {
