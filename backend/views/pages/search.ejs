@@ -14,19 +14,23 @@
     </script>
     <% if (records.length) { %>
         <styled-card>
-        <br>
-        <% records.forEach(record => { %>
-            <a href="/g/<%= record[0] %>"><%= record[1] %></a>
             <br>
-            <small style="font-size: xx-small; color: #555;">
-                <%= record[0] %>
-            </small>
-        <% }) %>
+            <strong><%= records.length %> results</strong> for "<%= tag %>".
+            <br>
+            <br>
+            <% records.forEach(record => { %>
+                <a href="/g/<%= record[0] %>"><%= record[1] %></a>
+                <br>
+                <small style="font-size: xx-small; color: #555;">
+                    <%= record[0] %>
+                </small>
+                <br><br>
+            <% }) %>
         </styled-card>
     <% } else { %>
         <styled-card>
             <br>
-            Sorry, there are no records for this search term.
+            Sorry, there are no records for "<%= tag %>".
         </styled-card>
     <% } %>
 </body>

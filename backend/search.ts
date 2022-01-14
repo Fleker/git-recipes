@@ -1,9 +1,9 @@
 import * as admin from 'firebase-admin';
 import { Recipe } from './recipes';
-// var serviceAccount = require("./key.json");
+var serviceAccount = require("./key.json");
 
 admin.initializeApp({
-  // credential: admin.credential.cert(serviceAccount) // Use ADC
+  credential: admin.credential.cert(serviceAccount) // Use ADC
 });
 
 class SearchManager {
@@ -26,7 +26,7 @@ class SearchManager {
     }
     const sanitizedRecords = Object.entries(records).map(([key, val]) => {
       return [key.replace(/[|]/g, '/'), val]
-    })
+    }).slice(0, 20)
     // For now grab default sort
     return sanitizedRecords
   }

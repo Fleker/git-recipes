@@ -153,17 +153,19 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
 
 app.get('/search/:tag/json', async (request: express.Request, response: express.Response) => {
     const {tag} = request.params
-    const records = await searchEng.getTopResults(tag)
+    const records = await searchEng.getTopResults(tag.toLowerCase())
     response.status(200).json({
-        records
+        tag,
+        records,
     })
 })
 
 app.get('/search/:tag', async (request: express.Request, response: express.Response) => {
     const {tag} = request.params
-    const records = await searchEng.getTopResults(tag)
+    const records = await searchEng.getTopResults(tag.toLowerCase())
     response.render('pages/search', {
-        records
+        tag,
+        records,
     });
 })
 
