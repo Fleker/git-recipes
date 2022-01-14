@@ -41,6 +41,13 @@ class RecipeUnit extends PolymerElement {
         </template>
       </template>
     </span>
+
+    <dialog id="dialog">
+      <strong>~ {{data.unit}} ~</strong>
+      <br>
+      <div id="dialog-txt"></div>
+      <button id="dialog-btn">Close</button>
+    </dialog>
     `
   }
 
@@ -138,32 +145,33 @@ class RecipeUnit extends PolymerElement {
       }
       return `https://www.amazon.com/gp/search?ie=UTF8&tag=dishoutrecipe-20&linkCode=ur2&linkId=34869d5229e477ff1d706a9abb72c9c8&camp=1789&creative=9325&index=kitchen&keywords=${this.data.item}`
     })()
+    this.$['dialog-btn'].onclick = () => {
+      this.$.dialog.close()
+    }
     this.$.box.onclick = () => {
       console.log(this.amount, this.data.unit)
       if (this.data.unit) {
         const classification = unitClassifier(this.data.unit)
         if (classification === 'liquid') {
           const measurement = `
-            ~ ${this.data.item} ~
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt
-            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal<br>
           `
-          alert(measurement)
+          this.$['dialog-txt'].innerHTML = measurement
         } else if (classification === 'solid') {
-          console.log(unitConversion(this.data.amount, this.data.unit, 'kg'))
           const measurement = `
-          ~ ${this.data.item} ~
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'oz'))} oz
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'lbs'))} lbs
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'g'))} g
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'kg'))} kg
-        `
-        alert(measurement)
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'oz'))} oz<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'lbs'))} lbs<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'g'))} g<br>
+            ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'kg'))} kg<br>
+            `
+          this.$['dialog-txt'].innerHTML = measurement
         }
+        this.$.dialog.showModal()
       }
     }
     setInterval(() => {
