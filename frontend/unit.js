@@ -136,7 +136,6 @@ class RecipeUnit extends PolymerElement {
     super.connectedCallback()
     this.initialServings = this.servings
     this.initialData = {...this.data}
-    console.log(this.initialServings)
     this.prettyAmount = this.prettyPrint(this.data.amount)
     this.prettyUnit = this.prettyPrintUnit(this.data.amount)
     this.quickLink = (() => {
@@ -149,7 +148,6 @@ class RecipeUnit extends PolymerElement {
       this.$.dialog.close()
     }
     this.$.box.onclick = () => {
-      console.log(this.amount, this.data.unit)
       if (this.data.unit) {
         const classification = unitClassifier(this.data.unit)
         if (classification === 'liquid') {

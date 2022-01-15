@@ -15,10 +15,12 @@ export function unitMatch(unitIn) {
     case 'teaspoon':
     case 'teaspoons':
     case 'tsp':
+    case 'tsps':
       return 'tsp';
     case 'tablespoon':
     case 'tablespoons':
     case 'tbsp':
+    case 'tbsps':
       return 'tbsp';
     case 'cup':
     case 'cups':
