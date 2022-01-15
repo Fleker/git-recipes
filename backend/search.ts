@@ -1,9 +1,10 @@
 import * as admin from 'firebase-admin';
 import { Recipe } from './recipes';
-var serviceAccount = require("./key.json");
+// var serviceAccount = require("./key.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount) // Use ADC
+  // credential: admin.credential.cert(serviceAccount) // Use ADC
+  credential: admin.credential.applicationDefault() // Use ADC
 });
 
 class SearchManager {
