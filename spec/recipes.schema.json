@@ -17,7 +17,8 @@
       "type": "string",
       "description": "Version of the spec used",
       "enum": [
-        "v0.1.0"
+        "v0.1.0",
+        "v0.1.1"
       ]
     },
     "tags": {
@@ -59,10 +60,27 @@
       "items": {
         "$ref": "#/definitions/step"
       }
+    },
+    "sections": {
+      "type": "object",
+      "description": "A subset of steps to complete the recipe.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the section"
+        },
+        "steps": {
+          "type": "array",
+          "description": "Individual steps for this recipe.",
+          "items": {
+            "$ref": "#/defintions/step"
+          }
+        }
+      }
     }
   },
   "required": [
-    "author", "recipe", "spec", "tags", "servings", "steps"
+    "author", "recipe", "spec", "tags", "servings"
   ],
   "definitions": {
     "equipment": {
@@ -161,6 +179,10 @@
           "items": {
             "$ref": "#/definitions/image"
           }
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "Whether this step is fundamental to the recipe"
         }
       },
       "required": [

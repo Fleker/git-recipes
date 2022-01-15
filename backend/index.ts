@@ -62,6 +62,17 @@ app.get('/sample/sweet-crepe', (request: express.Request, response: express.Resp
     return;
 })
 
+app.get('/sample/sections-optional', (request: express.Request, response: express.Response) => {
+    const data = yaml.load(fs.readFileSync('./public/sample-sections-optional.yaml',
+        {encoding: 'utf-8'}))
+    response.render('pages/recipe', {
+        recipeId: `g/sample/project`,
+        data: JSON.stringify(data),
+        stars: 15
+    });
+    return;
+})
+
 app.get('/sample/cookbook', async (request: express.Request, response: express.Response) => {
     response.render('pages/cookbook', {
         recipeId: `g/sample/project`,

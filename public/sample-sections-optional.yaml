@@ -1,0 +1,35 @@
+author: Nick Felker
+recipe: Sample Recipe
+spec: v0.1.1
+tags: sweet, crepe, pastry, dessert
+servings: 5
+prelude:
+  description: Testing optional steps & sections of recipes
+
+sections:
+  - name: Section 1
+    steps:
+      - description: Do task 1
+        ingredients:
+          - item: Salt
+            amount: 3
+            unit: tbsps
+        prepTime:
+          amount: 5
+          unit: minutes
+
+  - name: Section 2
+    steps:
+      - description: Do task 2
+        ingredients:
+          - item: Cilantro
+            amount: 5
+            unit: tsps
+        cookTime:
+            amount: 7
+            unit: minutes
+      - description: Maybe do a third task
+        equipment:
+          - item: Crockpot
+          - item: Bread Maker
+        optional: true

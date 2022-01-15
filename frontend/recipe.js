@@ -1,6 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-icons/iron-icons.js';
 import './carousel-image.js';
+import './recipe-step';
 import './styled-card.js';
 import './titlebar.js';
 import './video-youtube.js';
@@ -135,24 +136,21 @@ class Recipe extends PolymerElement {
         </template></ul>
         
         <h2>Directions</h2>
-        <ol><template is="dom-repeat" items="{{data.steps}}">
-          <li><div class='direction'>
-            [[item.description]]<br>
 
-            <template is="dom-repeat" items="{{item.images}}">
-              <br>
-              <carousel-image src="[[item.src]]" description="[[item.description]]"></carousel-image>
-            </template>
+        <template is="dom-if" if="{{data.steps}}">
+          <ol>
+            <recipe-steps steps="{{data.steps}}"></recipe-steps>
+          </ol>
+        </template>
 
-            <template is="dom-if" if="{{item.videos}}">
-              <template is="dom-repeat" items="{{item.videos}}">
-                <br>
-                <player-youtube vid="[[item.youtube]]"></player-youtube>
-              </template>
-            </template>
-
-          </div></li>
-        </template></ol>
+        <template is="dom-if" if="{{data.sections}}">
+          <template is="dom-repeat" items="{{data.sections}}">
+            <h3>{{item.name}}</h3>
+            <ol>
+              <recipe-steps steps="{{item.steps}}"></recipe-steps>
+            </ol>
+          </template>
+        </template>
       </styled-card>
 
       <script type="application/ld+json" id="recipeContent"></script>
@@ -219,6 +217,16 @@ class Recipe extends PolymerElement {
     super();
   }
 
+  getAllSteps() {
+    const steps = this.data.steps ? this.data.steps : []
+    if (this.data.sections) {
+      this.data.sections.forEach(section => {
+        steps.push(...section.steps)
+      })
+    }
+    return steps
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -231,9 +239,11 @@ class Recipe extends PolymerElement {
     }
 
     this.data = JSON.parse(this.recipeData);
-    const {steps, tags} = this.data;
+    const {tags} = this.data;
     this.hashtags = tags.split(',').map(k => `#${k.trim().replace(/\s/g, '')}`).join(' ');
 
+    // I need one unified array of _every_ step in my recipe
+    const steps = this.getAllSteps()
     steps.forEach(step => {
       if (step.prepTime && step.prepTime.unit) {
         this.prepTime += unitConversion(
@@ -266,7 +276,7 @@ class Recipe extends PolymerElement {
                   this.ingredients[ingredient.item].unit,
               );
               this.ingredients[ingredient.item].max += unitConversion(
-                  ingredient.max, 
+                  ingredient.max,
                   ingredient.unit,
                   this.ingredients[ingredient.item].unit,
             );
@@ -371,7 +381,7 @@ class Recipe extends PolymerElement {
         }
         return out
       }),
-      "recipeInstructions": this.data.steps.map(step => {
+      "recipeInstructions": this.getAllSteps().map(step => {
         return {
           "@type": "HowToStep",
           "text": step.description
