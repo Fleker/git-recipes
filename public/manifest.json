@@ -3,6 +3,7 @@
   "short_name": "Dishout",
   "start_url": "/",
   "display": "standalone",
+  "theme_color": "#0f0",
   "background_color": "#0f0",
   "description": "A handy recipes webapp.",
   "icons": [{

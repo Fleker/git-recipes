@@ -19,3 +19,16 @@
 <link rel="icon"
       type="image/png"
       href="/icons/homescreen32.png">
+<meta name="theme-color" content="#0f0">
+<base href="/">
+
+<script>
+    // Load and register pre-caching Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js', {
+            scope: '/'
+        });
+        });
+    }
+</script>

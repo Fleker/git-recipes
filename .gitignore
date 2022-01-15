@@ -12,6 +12,7 @@ package-lock.json
 .vscode/
 index.html
 index.js
+google-cloud*
 
 # Secrets
 key.json
