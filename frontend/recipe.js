@@ -87,7 +87,12 @@ class Recipe extends PolymerElement {
         </style>
       <title-bar stars='[[stars]]' recipe-id='[[recipeId]]' label='[[data.recipe]]'></title-bar>
       <styled-card>
-        <h1>[[data.recipe]]</h1>
+        <h1>
+          [[data.recipe]]
+          <a href="[[sourceUrl]]">
+            <iron-icon icon="code"></iron-icon>
+          </a>
+        </h1>
         <small>[[hashtags]]</small><br><br>
         <em>Recipe by [[data.author]]</em><br><br>
         Serves
@@ -209,6 +214,10 @@ class Recipe extends PolymerElement {
       'recipeData': {
         type: String,
         reflectToAttribute: true,
+      },
+      file: {
+        type: String,
+        reflectToAttribute: true,
       }
     };
   }
@@ -235,7 +244,8 @@ class Recipe extends PolymerElement {
       // GitHub
       this.author = recipeElements[1];
       this.recipeName = recipeElements[2];
-      this.forkLink = `https://github.com/${this.author}/${this.recipeName}`;
+      this.forkLink = `https://github.com/${this.author}/${this.recipeName}`
+      this.sourceUrl = `https://github.com/${this.author}/${this.recipeName}/blob/master/${this.file}`
     }
 
     this.data = JSON.parse(this.recipeData);

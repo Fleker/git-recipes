@@ -82,11 +82,12 @@ app.get('/sample/cookbook', async (request: express.Request, response: express.R
     return;
 })
 
-function renderRecipe(req: express.Request, res: express.Response, stars: number, recipe: Recipe) {
+function renderRecipe(req: express.Request, res: express.Response, stars: number, recipe: Recipe, fileLocation: string) {
   res.render('pages/recipe', {
       recipeId: `g/${req.params.username}/${req.params.repo}`,
       data: JSON.stringify(recipe),
-      stars
+      stars,
+      fileLocation,
   });
 }
 
@@ -117,7 +118,7 @@ app.get('/g/:username/:repo', async (request: express.Request, response: express
         const recipeFetch = await fetch(github.getDefaultRecipeUrl(username, repo), {})
         const recipeData = await recipeFetch.json()
         await searchEng.storeResult(`${username}/${repo}`, recipeData)
-        renderRecipe(request, response, stars, recipeData)
+        renderRecipe(request, response, stars, recipeData, '.recipe.json')
     } catch(e) {
         console.warn(`Could not find default recipe file`, e)
         // Try to render the cookbook
@@ -153,7 +154,7 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
         const recipeData = await recipeFetch.text()
         const recipeJson = preprocessRecipeYaml(fileLocation, recipeData)
         await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeJson)
-        renderRecipe(request, response, stars, recipeJson)
+        renderRecipe(request, response, stars, recipeJson, fileLocation)
     } catch (e) {
         console.error(e)
         response.status(404).send(`Cannot find. Error: ${e}`)
