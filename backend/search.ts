@@ -1,11 +1,18 @@
 import * as admin from 'firebase-admin';
 import { Recipe } from './recipes';
-// var serviceAccount = require("./key.json");
+try {
+  const serviceAccount = require("./key.json");
 
-admin.initializeApp({
-  // credential: admin.credential.cert(serviceAccount) // Use ADC
-  credential: admin.credential.applicationDefault() // Use ADC
-});
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount) // Use ADC
+  });
+  console.info('Loaded service account key -- likely a local environment')
+} catch (e) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault() // Use ADC
+  });
+  console.info('Loaded default credentials -- like in prod')
+}
 
 class SearchManager {
   db: FirebaseFirestore.Firestore
