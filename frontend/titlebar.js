@@ -1,6 +1,9 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-icons/iron-icons.js';
 
+const unhearted = 'favorite-border'
+const hearted = 'favorite'
+
 class TitleBar extends PolymerElement {
   static get template() {
     return html`
@@ -31,6 +34,18 @@ class TitleBar extends PolymerElement {
           text-decoration: none;
         }
 
+        iron-icon {
+          cursor: pointer;
+        }
+
+        iron-icon:hover {
+          background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        iron-icon:focus {
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+
         </style>
       <table id='titlebar'><tr>
         <td class='left'>
@@ -40,6 +55,7 @@ class TitleBar extends PolymerElement {
           </a>
         </td>
         <td class='right'>
+          <iron-icon icon$="{{hearted}}" id="btn-heart"></iron-icon>
           <a href='[[forkLink]]/stargazers' target='_blank'>
             <iron-icon icon="star"></iron-icon> [[stars]]
           </a>
@@ -67,6 +83,13 @@ class TitleBar extends PolymerElement {
       'recipeId': {
         type: String,
         reflectToAttribute: true,
+      },
+      label: {
+        type: String,
+        reflectToAttribute: true,
+      },
+      hearted: {
+        type: String,
       }
     };
   }
@@ -81,6 +104,40 @@ class TitleBar extends PolymerElement {
       this.recipeName = recipeElements[2];
       this.forkLink = `https://github.com/${this.author}/${this.recipeName}`;
     }
+
+    this.hearted = this.hasHearted() > -1 ? hearted : unhearted
+    const url = window.location.pathname
+    console.log('Got', url)
+      this.$['btn-heart'].onclick = () => {
+      const label = this.label ? this.label : this.recipeId
+      console.log('Heart this item!', url, label)
+      if (localStorage.getItem('favorites')) {
+        const localFavorites = JSON.parse(localStorage.getItem('favorites'))
+        const recipeIndex = this.hasHearted()
+        if (recipeIndex > -1) {
+          // We already have it saved.
+          // Toggle.
+          localFavorites.splice(recipeIndex, 1)
+          this.hearted = unhearted
+        } else {
+          localFavorites.push({url, label})
+          this.hearted = hearted
+        }
+        localStorage.setItem('favorites', JSON.stringify(localFavorites))
+      } else {
+        localStorage.setItem('favorites', JSON.stringify([{url, label}]))
+      }
+      console.info('Updated favorites list!')
+    }
+  }
+
+  hasHearted() {
+    const url = window.location.pathname
+    if (localStorage.getItem('favorites')) {
+      const localFavorites = JSON.parse(localStorage.getItem('favorites'))
+      return localFavorites.findIndex(v => v.url === url)
+    }
+    return -1
   }
 }
 

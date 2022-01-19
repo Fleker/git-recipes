@@ -85,7 +85,7 @@ class Recipe extends PolymerElement {
         }
 
         </style>
-      <title-bar stars='[[stars]]' recipe-id='[[recipeId]]'></title-bar>
+      <title-bar stars='[[stars]]' recipe-id='[[recipeId]]' label='[[data.recipe]]'></title-bar>
       <styled-card>
         <h1>[[data.recipe]]</h1>
         <small>[[hashtags]]</small><br><br>
