@@ -142,6 +142,48 @@ app.get('/g/:username/:repo', async (request: express.Request, response: express
     return;
 });
 
+app.get('/api/g/:username/:repo', async (request: express.Request, response: express.Response) => {
+    const {username, repo} = request.params
+    const stars = await github.getStars(username, repo)
+    try {
+        const recipeFetch = await fetch(github.getDefaultRecipeUrl(username, repo), {})
+        const recipeData = await recipeFetch.json()
+        await searchEng.storeResult(`${username}/${repo}`, recipeData)
+        return response.status(200).json({
+            stars,
+            recipeData,
+            fileLocation: '.recipe.json'
+        })
+    } catch(e) {
+        console.warn(`Could not find default recipe file`, e)
+        // Try to render the cookbook
+        try {
+            const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.json`)
+            const cookbookData = await cookbookFetch.json()
+            return response.status(200).json({
+                stars,
+                cookbookData,
+            })
+        } catch (e) {
+            console.error('Could not find cookbook', e)
+
+            try {
+                const cookbookFetch = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/.recipes.yaml`)
+                const cookbookData = await cookbookFetch.text()
+                const cookbookJson = preprocessCookbookYaml(cookbookData)
+                return response.status(200).json({
+                    stars,
+                    cookbookJson,
+                })
+            } catch (e) {
+                console.error('Could not find cookbook either way', e)
+                response.status(404).send(`Cannot find. Error: ${e}`)
+            }
+        }
+    }
+    return;
+});
+
 // Add new resource
 app.get('/g/:username/:repo/:recipe', async (request: express.Request, response: express.Response) => {
     const {username, repo, recipe} = request.params
@@ -161,6 +203,30 @@ app.get('/g/:username/:repo/:recipe', async (request: express.Request, response:
         return
     }
     return;
+});
+
+// Add new resource
+app.get('/api/g/:username/:repo/:recipe', async (request: express.Request, response: express.Response) => {
+    const {username, repo, recipe} = request.params
+    const stars = await github.getStars(username, repo)
+    try {
+        const cookbookFetch = await fetch(github.getCookbookUrl(username, repo))
+        const cookbookData = await cookbookFetch.json()
+        const fileLocation = cookbookData.recipes[recipe]
+        const recipeFetch = await fetch(github.getUrl(username, repo, fileLocation))
+        const recipeData = await recipeFetch.text()
+        const recipeJson = preprocessRecipeYaml(fileLocation, recipeData)
+        await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeJson)
+        return response.status(200).json({
+            stars,
+            recipeData,
+            fileLocation,
+        })
+    } catch (e) {
+        console.error(e)
+        response.status(404).send(`Cannot find. Error: ${e}`)
+        return
+    }
 });
 
 app.get('/search/:tag/json', async (request: express.Request, response: express.Response) => {
