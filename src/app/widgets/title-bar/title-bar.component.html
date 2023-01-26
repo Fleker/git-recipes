@@ -1,0 +1,18 @@
+<table id='titlebar'><tr>
+  <td class='left'>
+    {{author}}/{{recipeName}}
+    <a href="/g/{{author}}/{{recipeName}}">
+      <i class="material-icons">folder_open</i>
+    </a>
+  </td>
+  <td class='right'>
+    <i class="material-icons" (click)="heartToggle()">{{hearted}}</i>
+    <a href='[[forkLink]]/stargazers' target='_blank'>
+      <i class="material-icons">star</i> {{stars}}
+    </a>
+    &emsp;
+    <a href='[[forkLink]]' target='_blank'>
+      <i class="material-icons">create</i>
+    </a>
+  </td>
+</tr></table>

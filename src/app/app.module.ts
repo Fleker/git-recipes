@@ -9,6 +9,7 @@ import { HeaderComponent } from './widgets/header/header.component';
 import { CookbookComponent } from './pages/cookbook/cookbook.component';
 import { RecipeComponent } from './pages/recipe/recipe.component';
 import { HomeComponent } from './pages/home/home.component';
+import { TitleBarComponent } from './widgets/title-bar/title-bar.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HomeComponent } from './pages/home/home.component';
     CookbookComponent,
     RecipeComponent,
     HomeComponent,
+    TitleBarComponent,
   ],
   imports: [
     BrowserModule,

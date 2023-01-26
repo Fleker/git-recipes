@@ -1,1 +1,18 @@
-<p>cookbook works!</p>
+<title-bar [stars]='stars' recipe-id='{{recipeId}}'></title-bar>
+<styled-card>
+  <div *ngFor="let item of collections">
+    <h2>{{item.key}}</h2>
+    <ul>
+      <li *ngFor="let r of item.value">
+        <a href="/{{recipeId}}/{{r.key}}">{{r.label}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <h2>Full List</h2>
+  <ul>
+    <li *ngFor="let r of allRecipes">
+      <a href="/{{recipeId}}/{{r.key}}" class="small">{{r.label}}</a>
+    </li>
+  </ul>
+</styled-card>
