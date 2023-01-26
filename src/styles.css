@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0px;
+  font-family: 'Roboto Slab', serif;
+}
+
+code {
+  white-space: pre;
+  background-color: #efefef;
+  display: block;
+  padding-left: 16px;
+  border: solid 1px #cdcdcd;
+}

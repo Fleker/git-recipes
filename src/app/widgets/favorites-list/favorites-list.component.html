@@ -1,0 +1,12 @@
+<styled-card>
+  <h1>My Favorites</h1>
+  <small *ngIf="!favorites">
+    When you 'heart' a recipe or cookbook, it will be saved in your local browser.
+  </small>
+
+  <ul>
+    <li *ngFor="let item of favorites">
+      <a href="{{item.url}}">{{item.label}}</a>
+    </li>
+  </ul>
+</styled-card>
