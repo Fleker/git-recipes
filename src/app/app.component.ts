@@ -12,6 +12,9 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.splashscreen?.nativeElement?.classList.add('hide')
+      setTimeout(() => {
+        this.splashscreen?.nativeElement?.classList.add('gone')
+      })
     }, 500)
   }
 }

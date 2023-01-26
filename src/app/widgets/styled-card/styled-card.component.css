@@ -19,3 +19,7 @@ div h1 {
 div h2 {
   font-size: 14pt;
 }
+
+:host {
+  display: block;
+}

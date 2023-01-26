@@ -17,35 +17,12 @@
       Nothing to see here!
   </app-drawer>
 </app-header> -->
+<app-header></app-header>
 
 <div id='splashscreen' #splashscreen>
   Loading the kitchen...
 </div>
 
-<styled-card>
-  <br>
-  <p>
-      Hello. You can use this site to browse recipes.
-      You can use GitHub to create your own!
-  </p>
+<div id="spacer"></div>
 
-  <h1>Our top picks</h1>
-  <ul>
-      <li><a href='/g/fleker/personal-cookbook/'>Cookbook (via Git)</a></li>
-      <li><a href='/g/fleker/personal-cookbook/bacon-dressing'>Bacon Dressing JSON (via Git)</a></li>
-      <li><a href='/g/fleker/personal-cookbook/crepe'>Crepes YAML (via Git)</a></li>
-  </ul>
-
-  <p>
-      Visit the <a href='/docs'>Documentation page</a> for information on the specification.
-  </p>
-
-  <p>
-      This website is funded with affiliate links.
-      These links will appear to offer a particular item if you
-      don't have it. If you do, you can fully ignore thse links.
-  </p>
-
-</styled-card>
-
-<favorites-list></favorites-list>
+<router-outlet></router-outlet>

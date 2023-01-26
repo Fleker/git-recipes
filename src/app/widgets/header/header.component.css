@@ -1,0 +1,33 @@
+a {
+  color: white;
+  border: none;
+  text-decoration: none;
+  font-size: 20px;
+  padding-top: 16px;
+  display: inline-block
+}
+
+:host {
+  background-color: green;
+  height: 64px;
+  padding: 0 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 32px);
+  color: white;
+  display: block;
+}
+
+div.sidelinks {
+  display: inline-block;
+  float: right;
+}
+
+div.sidelinks button {
+  margin-left: 4px;
+}
+
+div.sidelinks a {
+  padding-left: 20px;
+}

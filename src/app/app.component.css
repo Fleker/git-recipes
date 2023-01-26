@@ -1,12 +1,3 @@
-app-toolbar {
-  background-color: green;
-  color: white;
-}
-app-toolbar a {
-  color: white;
-  border: none;
-  text-decoration: none;
-}
 #splashscreen {
   opacity: 1;
   background-color: green;
@@ -26,4 +17,13 @@ app-toolbar a {
 #splashscreen.hide {
   opacity: 0;
   z-index: -1;
+}
+#splashscreen.gone {
+  opacity: 0;
+  display: none;
+  z-index: -1;
+}
+
+#spacer {
+  padding-top: 64px;
 }
