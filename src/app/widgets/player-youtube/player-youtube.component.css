@@ -1,0 +1,11 @@
+iframe {
+  transition: all 0.5s;
+  width: 560px;
+  height: 315px;
+}
+
+@media (max-width: 600px) {
+  iframe {
+    width: 90vw;
+  }
+}

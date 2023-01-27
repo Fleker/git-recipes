@@ -17,3 +17,8 @@ input {
   font-family: 'Roboto Slab', serif;
   width: 4em;
 }
+
+span.optional {
+  font-style: italic;
+  font-size: small;
+}

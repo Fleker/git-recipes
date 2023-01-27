@@ -1,1 +1,66 @@
-<p>recipe works!</p>
+<title-bar [stars]='stars' [recipe-id]='recipeId' [label]='data.recipe'></title-bar>
+<styled-card>
+  <h1>
+    {{data.recipe}}
+    <a href="{{sourceUrl}}">
+      <i class="material-icons">code</i>
+    </a>
+  </h1>
+  <small>{{hashtags}}</small>
+  <br><br>
+  <em>Recipe by {{data.author}}</em>
+  <br><br>
+  Serves
+  <input type="number" id="servings" [(ngModel)]="data.servings" min="1" (input)="reserve()" />
+  <br>
+  Prep Time: {{prepTime}} min<br>
+  <span *ngIf="cookTime">
+    Cook Time: {{cookTime}} min<br>
+  </span>
+  <br>
+
+  <carousel-image *ngFor="let item of data.prelude.images" src="{{item.src}}" description="{{item.description}}">
+  </carousel-image>
+
+  <player-youtube *ngFor="let item of data.prelude.videos" [vid]="item.youtube"></player-youtube>
+  
+  <br><br>
+
+  {{data.prelude.description}}
+
+  <h2>Ingredients</h2>
+  <ul>
+    <li *ngFor="let item of ingredientsArray">
+      <recipe-unit [data]="item" [servings]="data.servings"></recipe-unit>
+    </li>
+  </ul>
+
+  <h2>Equipment Needed</h2>
+  <ul>
+    <li *ngFor="let item of equipmentObj">
+      <a *ngIf="item.link" href="{{item.link}}" target="_blank">
+        {{item.text}}
+      </a>
+      <span *ngIf="!item.link">
+        {{item.text}}
+      </span>
+    </li>
+  </ul>
+  
+  <h2>Directions</h2>
+
+  <ol *ngIf="data.steps">
+    <recipe-step [steps]="data.steps"></recipe-step>
+  </ol>
+
+  <div *ngFor="let section of data.sections">
+    <h3>{{section.name}}</h3>
+    <ol *ngIf="section.steps">
+      <recipe-step [steps]="section.steps"></recipe-step>
+    </ol>
+  </div>
+</styled-card>
+
+<script type="application/ld+json" id="recipeContent">
+  {{generateRecipeContent()}}
+</script>

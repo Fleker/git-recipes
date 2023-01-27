@@ -1,0 +1,20 @@
+<ol>
+  <li *ngFor="let item of steps">
+    <div class='direction'>
+      <span *ngIf="item.optional">
+        <span class="optional">optional</span>
+      </span>
+      {{item.description}}
+
+      <div *ngFor="let img of item.images">
+        <br>
+        <carousel-image src="{{img.src}}" description="{{img.description}}"></carousel-image>
+      </div>
+
+      <div *ngFor="let video of item.videos">
+        <br>
+        <player-youtube vid="{{video.youtube}}"></player-youtube>
+      </div>
+    </div>
+  </li>
+</ol>

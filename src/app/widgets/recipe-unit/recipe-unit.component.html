@@ -1,0 +1,29 @@
+<span id="box" (click)="open()">
+  <span *ngIf="data?.amount">
+    {{prettyAmount}}
+    <span *ngIf="data?.unit">
+      {{prettyUnit}} of
+      <a *ngIf="quickLink" href="{{quickLink}}" target="_blank">
+        {{data?.item}}
+      </a>
+      <span *ngIf="!quickLink">{{data?.item}}</span>
+    </span>
+  </span>
+  <span *ngIf="data?.min">
+    {{data?.min}} - {{data?.max}}
+    <span *ngIf="data?.unit">
+      {{prettyUnit}} of
+      <a *ngIf="quickLink" href="{{quickLink}}" target="_blank">
+        {{data?.item}}
+      </a>
+      <span *ngIf="!quickLink">{{data?.item}}</span>
+    </span>
+  </span>
+</span>
+
+<dialog id="dialog">
+  <strong>~ {{data?.unit}} ~</strong>
+  <br>
+  <div id="dialog-txt">{{measurementText}}</div>
+  <button id="dialog-btn" (click)="close()">Close</button>
+</dialog>
