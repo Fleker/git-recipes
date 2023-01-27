@@ -30,7 +30,7 @@ jobs:
         run: npm install && npm run build && sh ./scripts/postbuild.sh
 
       - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@main
+        uses: google-github-actions/setup-gcloud@v0
         with:
           service_account_key: ${{ secrets.GCLOUD_SAK }}
           export_default_credentials: true
