@@ -7,6 +7,7 @@ import * as Sample from './samples'
 import {github} from './github'
 import { Recipe, Cookbook } from './recipes';
 import SearchManager from './search'
+const cors = require('cors')
 const yaml = require('js-yaml');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.static('public'));
 app.use('public', express.static('public'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({ origin: '*' }))
 
 // views is directory for all template files
 

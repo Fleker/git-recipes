@@ -34,6 +34,7 @@
     "start": "node index.js",
     "serve": "bash ./scripts/serve.sh",
     "serve:polymer": "polymer serve",
+    "predeploy": "yarn build && sh ./scripts/postbuild.sh",
     "deploy": "yarn build && sh ./scripts/postbuild.sh && cd dist && gcloud app deploy --quiet --project git-recipes"
   }
 }
