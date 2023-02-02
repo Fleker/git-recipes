@@ -102,7 +102,9 @@ function renderCookbook(req: express.Request, res: express.Response, stars: numb
 }
 
 function preprocessRecipeYaml(filename: string, data: string): Recipe {
+  console.log(filename)
   if (filename.endsWith('yaml')) {
+    console.log('Convert from YAML')
     return yaml.load(data) as Recipe
   }
   return JSON.parse(data) as Recipe
@@ -217,6 +219,7 @@ app.get('/api/g/:username/:repo/:recipe', async (request: express.Request, respo
         const fileLocation = cookbookData.recipes[recipe]
         const recipeFetch = await fetch(github.getUrl(username, repo, fileLocation))
         const recipeData = await recipeFetch.text()
+        console.log('Fetched', recipe, 'as', fileLocation)
         const recipeJson = preprocessRecipeYaml(fileLocation, recipeData)
         await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeJson)
         return response.status(200).json({
