@@ -7,9 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+  <link rel="manifest" href="/assets/manifest.json" />
 </head>
 <body>
   <app-root></app-root>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script>
+    if ('serviceWorker' in navigator) {
+    // Register a service worker hosted at the root of the
+    // site using the default scope.
+    navigator.serviceWorker.register('/assets/sw.js', {
+      scope: '.',
+    }).then((registration) => {
+      console.log('Service worker registration succeeded:', registration);
+    }, /*catch*/ (error) => {
+      console.error(`Service worker registration failed: ${error}`);
+    });
+  } else {
+    console.error('Service workers are not supported.');
+  }
+  </script>
 </body>
 </html>
