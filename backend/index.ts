@@ -224,7 +224,7 @@ app.get('/api/g/:username/:repo/:recipe', async (request: express.Request, respo
         await searchEng.storeResult(`${username}/${repo}/${recipe}`, recipeJson)
         return response.status(200).json({
             stars,
-            recipeData,
+            recipeJson,
             fileLocation,
         })
     } catch (e) {
