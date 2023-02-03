@@ -26,9 +26,11 @@
   </span>
 </span>
 
-<dialog id="dialog">
+<dialog #dialog>
   <strong>~ {{data?.unit}} ~</strong>
   <br>
-  <div id="dialog-txt">{{measurementText}}</div>
+  <div *ngFor="let m of measurementText">
+    {{m}}
+  </div>
   <button id="dialog-btn" (click)="close()">Close</button>
 </dialog>

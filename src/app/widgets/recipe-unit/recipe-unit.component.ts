@@ -21,7 +21,7 @@ export class RecipeUnitComponent implements OnInit {
   initialData?: any
   initialServings?: number
   prettyUnit?: string
-  measurementText?: string
+  measurementText?: string[]
 
   ngOnInit() {
     this.initialServings = this.servings
@@ -87,29 +87,30 @@ export class RecipeUnitComponent implements OnInit {
 
   open() {
     if (this.data?.unit) {
+      console.log(this.data?.unit)
       const classification = unitClassifier(this.data.unit)
       if (classification === 'liquid') {
-        const measurement = `
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal<br>
-        `
+        this.measurementText = [
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tsp'))} Tsp`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'tbsp'))} Tbsp`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'cup'))} Cup`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'pint'))} Pt`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'quart'))} Qt`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'gallon'))} Gal`,
+        ]
       } else if (classification === 'solid') {
-        const measurement = `
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'oz'))} oz<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'lbs'))} lbs<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'g'))} g<br>
-          ${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'kg'))} kg<br>
-          `
+        this.measurementText = [
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'oz'))} oz`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'lbs'))} lbs`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'g'))} g`,
+          `${this.prettyPrint(unitConversion(this.data.amount, this.data.unit, 'kg'))} kg`,
+        ]
       }
-      this.dialog?.nativeElement.showModal()
+      this.dialog!.nativeElement.showModal()
     }
   }
 
   close() {
-    this.dialog?.nativeElement.close()
+    this.dialog!.nativeElement.close()
   }
 }
