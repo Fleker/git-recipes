@@ -17,7 +17,7 @@
     // Register a service worker hosted at the root of the
     // site using the default scope.
     navigator.serviceWorker.register('/assets/sw.js', {
-      scope: '.',
+      scope: '/assets/',
     }).then((registration) => {
       console.log('Service worker registration succeeded:', registration);
     }, /*catch*/ (error) => {
