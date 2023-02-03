@@ -9,7 +9,8 @@ export function unitClassifier(unitIn: string) {
   return
 }
 
-export function unitMatch(unitIn: string) {
+export function unitMatch(unitIn?: string) {
+  if (!unitIn) return undefined
   switch (unitIn.toLowerCase()) {
     // Liquid measurements
     case 'teaspoon':

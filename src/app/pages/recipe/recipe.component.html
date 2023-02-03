@@ -1,14 +1,14 @@
-<title-bar [stars]='stars' [recipe-id]='recipeId' [label]='data.recipe'></title-bar>
-<styled-card>
+<title-bar [stars]='stars' [recipe-id]='recipeId' [label]='data?.recipe'></title-bar>
+<styled-card *ngIf="data">
   <h1>
-    {{data.recipe}}
+    {{data?.recipe}}
     <a href="{{sourceUrl}}">
       <i class="material-icons">code</i>
     </a>
   </h1>
   <small>{{hashtags}}</small>
   <br><br>
-  <em>Recipe by {{data.author}}</em>
+  <em>Recipe by {{data?.author}}</em>
   <br><br>
   Serves
   <input type="number" id="servings" [(ngModel)]="data.servings" min="1" (input)="reserve()" />
@@ -19,14 +19,14 @@
   </span>
   <br>
 
-  <carousel-image *ngFor="let item of data.prelude.images" src="{{item.src}}" description="{{item.description}}">
+  <carousel-image *ngFor="let item of data?.prelude?.images" src="{{item.src}}" description="{{item.description}}">
   </carousel-image>
 
-  <player-youtube *ngFor="let item of data.prelude.videos" [vid]="item.youtube"></player-youtube>
+  <player-youtube *ngFor="let item of data?.prelude?.videos" [vid]="item.youtube"></player-youtube>
   
   <br><br>
 
-  {{data.prelude.description}}
+  {{data?.prelude?.description}}
 
   <h2>Ingredients</h2>
   <ul>

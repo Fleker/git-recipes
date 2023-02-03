@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { unitConversion } from 'src/app/unit-matcher';
 
 @Component({
@@ -12,34 +13,28 @@ export class RecipeComponent implements OnInit {
   recipeName?: string
   forkLink?: string
   hashtags?: string
-  ingredients?: any
+  ingredients: any = {}
   ingredientsArray?: any[]
-  equipment?: string[]
+  equipment: string[] = []
   equipmentObj?: any[]
   cookTime = 0
   prepTime = 0
   data?: any
   @Input('recipe-id') recipeId?: string
-  @Input('recipe-data') recipeData?: string
   @Input('file') file?: string
   sourceUrl?: string
   originalServings?: number
 
-  getAllSteps() {
-    const steps = this.data.steps ? this.data.steps : [];
+  constructor(private route: ActivatedRoute) {}
 
-    if (this.data.sections) {
-      this.data.sections.forEach((section: { steps: any; }) => {
-        steps.push(...section.steps);
-      });
-    }
+  async load(author: string, recipeName: string, file: string) {
+    const res = await fetch(`https://dishout.recipes/api/g/${author}/${recipeName}/${file}`)
+    const rdata = await res.json()
+    this.file = rdata.fileLocation
+    this.stars = rdata.stars
+    this.data = rdata.recipeJson
 
-    return steps;
-  }
-
-  ngOnInit() {
     if (!this.recipeId) return
-    if (!this.recipeData) return
     const recipeElements = this.recipeId.split('/');
 
     if (recipeElements[0] === 'g') {
@@ -50,11 +45,8 @@ export class RecipeComponent implements OnInit {
       this.sourceUrl = `https://github.com/${this.author}/${this.recipeName}/blob/master/${this.file}`;
     }
 
-    this.data = JSON.parse(this.recipeData)
     this.originalServings = this.data.servings
-    const {
-      tags
-    } = this.data;
+    const { tags } = this.data;
     this.hashtags = tags.split(',').map((k: string) => `#${k.trim().replace(/\s/g, '')}`).join(' ') // I need one unified array of _every_ step in my recipe
 
     const steps = this.getAllSteps();
@@ -112,11 +104,35 @@ export class RecipeComponent implements OnInit {
       };
     })
 
+    console.log(this.equipment)
     this.equipmentObj = this.equipment?.map(item => {
       return {
         link: `https://www.amazon.com/gp/search?ie=UTF8&tag=dishoutrecipe-20&linkCode=ur2&linkId=34869d5229e477ff1d706a9abb72c9c8&camp=1789&creative=9325&index=kitchen&keywords=${item}`,
         text: item
       }
+    })
+  }
+
+  getAllSteps() {
+    const steps = this.data.steps ? this.data.steps : [];
+
+    if (this.data.sections) {
+      this.data.sections.forEach((section: { steps: any; }) => {
+        steps.push(...section.steps);
+      });
+    }
+
+    return steps;
+  }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      console.log(params)
+      const author = params.get('profile')!
+      const recipeName = params.get('repo')!
+      const file = params.get('file')!
+      this.recipeId = window.location.pathname
+      this.load(author, recipeName, file)
     })
   }
 

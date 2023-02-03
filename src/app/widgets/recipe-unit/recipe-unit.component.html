@@ -8,6 +8,11 @@
       </a>
       <span *ngIf="!quickLink">{{data?.item}}</span>
     </span>
+    <span *ngIf="!data?.unit">
+      <a *ngIf="quickLink" href="{{quickLink}}" target="_blank">
+        {{data?.item}}
+      </a>
+    </span>
   </span>
   <span *ngIf="data?.min">
     {{data?.min}} - {{data?.max}}

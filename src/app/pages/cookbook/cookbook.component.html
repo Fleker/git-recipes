@@ -1,10 +1,10 @@
 <title-bar [stars]='stars' recipe-id='{{recipeId}}'></title-bar>
 <styled-card>
   <div *ngFor="let item of collections">
-    <h2>{{item.key}}</h2>
+    <h2>{{item[0]}}</h2>
     <ul>
-      <li *ngFor="let r of item.value">
-        <a href="/{{recipeId}}/{{r.key}}">{{r.label}}</a>
+      <li *ngFor="let r of item[1].recipes">
+        <a href="{{recipeId}}/{{r.key}}">{{r.label}}</a>
       </li>
     </ul>
   </div>
@@ -12,7 +12,7 @@
   <h2>Full List</h2>
   <ul>
     <li *ngFor="let r of allRecipes">
-      <a href="/{{recipeId}}/{{r.key}}" class="small">{{r.label}}</a>
+      <a href="{{recipeId}}/{{r[0]}}" class="small">{{r[1]}}</a>
     </li>
   </ul>
 </styled-card>

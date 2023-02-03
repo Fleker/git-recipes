@@ -12,11 +12,12 @@ export class FavoritesListComponent implements OnInit {
   }[]
 
   ngOnInit() {
-    console.debug('Connected to favorites list');
+    console.debug('Connected to favorites list')
 
     if (localStorage.getItem('favorites')) {
-      console.log('Load favorites item');
+      console.log('Load favorites item')
       this.favorites = JSON.parse(localStorage.getItem('favorites') ?? '[]')
+      console.log(this.favorites)
     }
   }
 }
