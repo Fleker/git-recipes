@@ -140,6 +140,7 @@ export class RecipeComponent implements OnInit {
         text: item
       }
     })
+    this.generateRecipeContent()
   }
 
   getAllSteps() {
@@ -184,7 +185,7 @@ export class RecipeComponent implements OnInit {
   }
 
   generateRecipeContent() {
-    return {
+    const jsonLd = {
       "@context": "http://schema.org",
       "@type": "Recipe",
       "name": this.data.recipe,
@@ -229,5 +230,11 @@ export class RecipeComponent implements OnInit {
         };
       })
     };
+    // Insert in BODY
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'recipeContent'
+    script.innerHTML = JSON.stringify(jsonLd)
+    document.querySelector('body')?.appendChild(script)
   }
 }
