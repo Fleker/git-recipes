@@ -14,6 +14,7 @@ import { CarouselImageComponent } from './widgets/carousel-image/carousel-image.
 import { PlayerYoutubeComponent } from './widgets/player-youtube/player-youtube.component';
 import { RecipeUnitComponent } from './widgets/recipe-unit/recipe-unit.component';
 import { RecipeStepComponent } from './widgets/recipe-step/recipe-step.component';
+import { NgxGanttModule } from '@worktile/gantt';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { RecipeStepComponent } from './widgets/recipe-step/recipe-step.component
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    NgxGanttModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

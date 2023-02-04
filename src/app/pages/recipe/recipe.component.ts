@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GanttItem, GanttViewType } from '@worktile/gantt';
 import { unitConversion } from 'src/app/unit-matcher';
 
 @Component({
@@ -24,11 +25,18 @@ export class RecipeComponent implements OnInit {
   @Input('file') file?: string
   sourceUrl?: string
   originalServings?: number
+  ganttItems: GanttItem[] = []
+  ganttViewType: GanttViewType = GanttViewType.day
+  ganttViewOptions = {
+    dateFormat: {
+      month: 'M'
+    }
+  }
 
   constructor(private route: ActivatedRoute) {}
 
   async load(author: string, recipeName: string, file: string) {
-    const res = await fetch(`https://dishout.recipes/api/g/${author}/${recipeName}/${file}`)
+    const res = await fetch(`https://git-recipes.uc.r.appspot.com/api/g/${author}/${recipeName}/${file}`)
     const rdata = await res.json()
     this.file = rdata.fileLocation
     this.stars = rdata.stars
@@ -93,6 +101,27 @@ export class RecipeComponent implements OnInit {
       }
     }); // I need to remap every property, as JS by default will keep values as references to the original object
     // I do not want this, as I want the original values.
+
+    let timeNow = Date.now()
+    this.ganttItems = steps.map((step: any, i: number) => {
+      const entry: any = {
+        id: i.toString(),
+        title: step.description,
+        start: timeNow,
+        expandable: true,
+      }
+      if (step.prepTime && step.prepTime.unit) {
+        timeNow += unitConversion(step.prepTime.amount, step.prepTime.unit, 'minutes')!*60_000 ?? 0
+      }
+      if (step.cookTime && step.cookTime.unit) {
+        timeNow += unitConversion(step.cookTime.amount, step.cookTime.unit, 'minutes')!*60_000 ?? 0
+      }
+      entry.end = timeNow
+      if (i > 0) {
+        entry.link = (i - 1).toString()
+      }
+      return entry
+    })
 
     this.ingredientsArray = Object.values(this.ingredients).map((i: any) => {
       return {

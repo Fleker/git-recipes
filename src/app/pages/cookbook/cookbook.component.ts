@@ -26,7 +26,7 @@ export class CookbookComponent implements OnInit {
   }
 
   async load(author: string, recipeName: string) {
-    const res = await fetch(`https://dishout.recipes/api/g/${author}/${recipeName}/`)
+    const res = await fetch(`https://git-recipes.uc.r.appspot.com/api/g/${author}/${recipeName}/`)
     const rdata = await res.json()
     this.recipeData = rdata.cookbookData
     this.stars = rdata.stars
