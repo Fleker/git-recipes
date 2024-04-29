@@ -5,6 +5,14 @@
         <span class="optional">optional</span>
       </span>
       {{item.description}}
+      <div class="footer">
+        <span *ngIf="item.prepTime" title="Prep Time">
+          <i class="material-icons">schedule</i> {{item.prepTime.amount}}
+        </span>
+        <span *ngIf="item.cookTime" title="Cook Time">
+          <i class="material-icons">alarm</i> {{item.cookTime.amount}}
+        </span>
+      </div>
 
       <div *ngFor="let img of item.images">
         <br>

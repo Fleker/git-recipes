@@ -22,3 +22,11 @@ span.optional {
   font-style: italic;
   font-size: small;
 }
+
+.footer i, .footer {
+  font-size: small;
+}
+
+i.material-icons {
+  vertical-align: middle;
+}
