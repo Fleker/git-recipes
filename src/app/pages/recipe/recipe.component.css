@@ -17,3 +17,12 @@ input {
   font-family: 'Roboto Slab', serif;
   width: 4em;
 }
+
+gantt-table, .gantt-table, .gantt-table-column {
+  font-size: 10pt;
+}
+
+i.material-icons.header {
+  font-size: 12pt;
+  vertical-align: middle;
+}

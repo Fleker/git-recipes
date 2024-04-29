@@ -13,7 +13,10 @@
   Serves
   <input type="number" id="servings" [(ngModel)]="data.servings" min="1" (input)="reserve()" />
   <br>
-  Prep Time: {{prepTime}} min<br>
+  <i class="material-icons header">schedule</i>
+  Prep Time: {{prepTime}} min
+  <br>
+  <i class="material-icons header">alarm</i>
   <span *ngIf="cookTime">
     Cook Time: {{cookTime}} min<br>
   </span>
@@ -49,6 +52,11 @@
   
   <h2>Directions</h2>
 
+  <strong *ngIf="data.preheat">
+    <i class="material-icons">local_fire_department</i>
+    {{data.preheat}}° C ({{fahrenheit(data.preheat)}}°F)
+  </strong>
+
   <ol *ngIf="data.steps">
     <recipe-step [steps]="data.steps"></recipe-step>
   </ol>
@@ -65,14 +73,18 @@
   <h1>Gantt Chart</h1>
   <ngx-gantt #gantt
       [items]="ganttItems"
-      [viewType]="ganttViewType"
       [viewOptions]="ganttViewOptions"
       [async]="true"
       [draggable]="false"
+
       >
     <ngx-gantt-table>
-      <ngx-gantt-column name="Title" width="300px">
-        <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+      <ngx-gantt-column name="{{data?.recipe}}" width="200px">
+        <ng-template #cell let-item="item">
+          <span title="{{item.title}}" style="font-size: 10pt;">
+            {{ item.title }}
+          </span>
+        </ng-template>
       </ngx-gantt-column>
     </ngx-gantt-table>
   </ngx-gantt>
