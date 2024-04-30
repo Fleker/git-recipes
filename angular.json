@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "git-recipes-2:build:production"
+              "buildTarget": "git-recipes-2:build:production"
             },
             "development": {
-              "browserTarget": "git-recipes-2:build:development"
+              "buildTarget": "git-recipes-2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "git-recipes-2:build"
+            "buildTarget": "git-recipes-2:build"
           }
         },
         "test": {
