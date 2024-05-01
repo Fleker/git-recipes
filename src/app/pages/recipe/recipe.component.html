@@ -53,8 +53,8 @@
   <h2>Directions</h2>
 
   <strong *ngIf="data.preheat">
-    <i class="material-icons">local_fire_department</i>
-    {{data.preheat}}° C ({{fahrenheit(data.preheat)}}°F)
+    <i class="material-icons header">local_fire_department</i>
+    {{data.preheat | number: '1.0-0'}}° C ({{fahrenheit(data.preheat)}}°F)
   </strong>
 
   <ol *ngIf="data.steps">
@@ -69,14 +69,14 @@
   </div>
 </styled-card>
 
-<styled-card *ngIf="false">
+<styled-card *ngIf="true">
   <h1>Gantt Chart</h1>
   <ngx-gantt #gantt
       [items]="ganttItems"
+      [viewType]="ganttViewType"
       [viewOptions]="ganttViewOptions"
       [async]="true"
       [draggable]="false"
-
       >
     <ngx-gantt-table>
       <ngx-gantt-column name="{{data?.recipe}}" width="200px">

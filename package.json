@@ -19,7 +19,7 @@
     "@angular/platform-browser": "^17.3.6",
     "@angular/platform-browser-dynamic": "^17.3.6",
     "@angular/router": "^17.3.6",
-    "@worktile/gantt": "^14.0.5",
+    "@worktile/gantt": "^17.0.0-next.0",
     "date-fns": "^2.29.3",
     "html2canvas": "^1.4.1",
     "rxjs": "^7.8.0",
@@ -37,6 +37,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "local-web-server": "^5.3.3",
     "typescript": "~5.4.5"
   }
 }

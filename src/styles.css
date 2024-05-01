@@ -11,3 +11,7 @@ code {
   padding-left: 16px;
   border: solid 1px #cdcdcd;
 }
+
+.gantt {
+  min-height: 1000px;
+}

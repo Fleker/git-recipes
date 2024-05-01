@@ -18,8 +18,12 @@ input {
   width: 4em;
 }
 
-gantt-table, .gantt-table, .gantt-table-column {
+ngx-gantt-table, .gantt-table, .gantt-table-column {
   font-size: 10pt;
+}
+
+ngx-gantt {
+  min-height: 1000px;
 }
 
 i.material-icons.header {

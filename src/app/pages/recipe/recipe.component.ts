@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GanttDate, GanttItem, GanttViewOptions, GanttViewType, NgxGanttComponent, registerView } from '@worktile/gantt';
 import { unitConversion } from 'src/app/unit-matcher';
-import { GanttViewCustom } from './GanttCustomView';
+// import { GanttViewCustom } from './GanttCustomView';
 
 @Component({
   selector: 'app-recipe',
@@ -28,13 +28,13 @@ export class RecipeComponent implements OnInit {
   sourceUrl?: string
   originalServings?: number
   ganttItems: GanttItem[] = []
-  ganttViewType: GanttViewType = GanttViewType.day
+  ganttViewType: GanttViewType = GanttViewType.hour
   ganttViewOptions: GanttViewOptions = {
-    start: new GanttDate().addMinutes(-30),
+    start: new GanttDate().addMinutes(-5),
     end: new GanttDate().addHours(1),
-    min: new GanttDate().addMinutes(-31),
+    min: new GanttDate().addMinutes(-5),
     max: new GanttDate().addHours(1).addMinutes(1),
-    cellWidth: 300,
+    cellWidth: 200,
     dateFormat: {
       week: 'w',
       month: 'M',
@@ -121,7 +121,7 @@ export class RecipeComponent implements OnInit {
       const entry: GanttItem = {
         id: i.toString(),
         title: step.description,
-        start: timeNow / 1000,
+        start: timeNow,
         expandable: false,
       }
       if (step.prepTime && step.prepTime.unit) {
@@ -130,7 +130,7 @@ export class RecipeComponent implements OnInit {
       if (step.cookTime && step.cookTime.unit) {
         timeNow += unitConversion(step.cookTime.amount, step.cookTime.unit, 'minutes')!*60_000 ?? 0
       }
-      entry.end = timeNow / 1000
+      entry.end = timeNow
       if (i > 0) {
         entry.links = [(i - 1).toString()]
       }
@@ -138,11 +138,12 @@ export class RecipeComponent implements OnInit {
     });
     // registerView('custom', GanttViewCustom);
     // (this.gantt! as any).viewType = 'custom'
-    this.gantt!.view = new GanttViewCustom({date: new GanttDate()}, {date: new GanttDate(timeNow)}, this.ganttItems)
-    setTimeout(() => {
-      this.gantt!.detectChanges()
-      this.gantt!.rerenderView()
-    }, 500)
+    // this.gantt!.view = new GanttViewCustom({date: new GanttDate()}, {date: new GanttDate(timeNow)}, this.ganttItems)
+    // setTimeout(() => {
+    //   this.gantt!.detectChanges()
+    //   this.gantt!.rerenderView()
+    // }, 500)
+    this.gantt!.scrollToDate(new GanttDate(Date.now())) // Now
 
     this.ingredientsArray = Object.values(this.ingredients).map((i: any) => {
       return {
@@ -260,6 +261,6 @@ export class RecipeComponent implements OnInit {
   }
 
   fahrenheit(celsius: number) {
-    return (celsius * 9 / 5) + 32
+    return Math.round((celsius * 9 / 5) + 32)
   }
 }
