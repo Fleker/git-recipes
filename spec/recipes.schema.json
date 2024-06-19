@@ -18,7 +18,8 @@
       "description": "Version of the spec used",
       "enum": [
         "v0.1.0",
-        "v0.1.1"
+        "v0.1.1",
+        "v0.1.2",
       ]
     },
     "tags": {
@@ -53,6 +54,10 @@
       "required": [
         "description"
       ]
+    },
+    "preheat": {
+      "type": "number",
+      "description": "The temperature to set the oven prior to beginning the steps, in Celcius"
     },
     "steps": {
       "type": "array",
