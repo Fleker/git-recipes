@@ -1,0 +1,10 @@
+<ng-container *ngIf="user$ | async as user; else showLogin">
+  <div class="auth-container">
+    <span class="user-greeting">Hello, you</span>
+    <!-- <span class="user-greeting">Hello, {{ user.displayName?.split(' ')[0] || user.email }}</span> -->
+    <button class="auth-button" (click)="logout()" title="Sign Out"><i class="material-icons">logout</i></button>
+  </div>
+</ng-container>
+<ng-template #showLogin>
+  <button class="auth-button" (click)="login()"><i class="material-icons">login</i> Sign In</button>
+</ng-template>

@@ -49,8 +49,8 @@ export class RecipeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
-  async load(author: string, recipeName: string, file: string) {
-    const res = await fetch(`https://git-recipes.uc.r.appspot.com/api/g/${author}/${recipeName}/${file}`)
+  async load(db: string, author: string, repo: string, file: string) {
+    const res = await fetch(`https://us-central1-git-recipes.cloudfunctions.net/api/${db}/${author}/${repo}/${file}`)
     const rdata = await res.json()
     this.file = rdata.fileLocation
     this.stars = rdata.stars
@@ -67,9 +67,9 @@ export class RecipeComponent implements OnInit {
       this.sourceUrl = `https://github.com/${this.author}/${this.recipeName}/blob/master/${this.file}`;
     }
 
-    this.originalServings = this.data.servings
+    this.originalServings = this.data.servings ?? 1
     const { tags } = this.data;
-    this.hashtags = tags.split(',').map((k: string) => `#${k.trim().replace(/\s/g, '')}`).join(' ') // I need one unified array of _every_ step in my recipe
+    this.hashtags = tags?.split(',').map((k: string) => `#${k.trim().replace(/\s/g, '')}`).join(' ') // I need one unified array of _every_ step in my recipe
 
     const steps = this.getAllSteps();
     steps.forEach((step: { prepTime: { unit: string; amount: number; }; cookTime: { unit: string; amount: number; }; ingredients: any[]; equipment: any[]; }) => {
@@ -180,11 +180,12 @@ export class RecipeComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       console.log(params)
+      const db = params.get('db')!
       const author = params.get('profile')!
-      const recipeName = params.get('repo')!
-      const file = params.get('file')!
+      const repo = params.get('repo')!
+      const recipe = params.get('file')!
       this.recipeId = window.location.pathname
-      this.load(author, recipeName, file)
+      this.load(db, author, repo, recipe)
     })
   }
 

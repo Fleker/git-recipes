@@ -18,15 +18,16 @@ export class CookbookComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       console.log(params)
+      const db = params.get('db')!
       const author = params.get('profile')!
       const recipeName = params.get('repo')!
       this.recipeId = window.location.pathname
-      this.load(author, recipeName)
+      this.load(db, author, recipeName)
     })
   }
 
-  async load(author: string, recipeName: string) {
-    const res = await fetch(`https://git-recipes.uc.r.appspot.com/api/g/${author}/${recipeName}/`)
+  async load(db: string, author: string, recipeName: string) {
+    const res = await fetch(`https://us-central1-git-recipes.cloudfunctions.net/api/${db}/${author}/${recipeName}`)
     const rdata = await res.json()
     this.recipeData = rdata.cookbookData
     this.stars = rdata.stars

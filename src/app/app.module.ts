@@ -15,6 +15,11 @@ import { PlayerYoutubeComponent } from './widgets/player-youtube/player-youtube.
 import { RecipeUnitComponent } from './widgets/recipe-unit/recipe-unit.component';
 import { RecipeStepComponent } from './widgets/recipe-step/recipe-step.component';
 import { NgxGanttModule } from '@worktile/gantt';
+import { ShareComponent } from './pages/share/share.component';
+import { AuthComponent } from './widgets/auth/auth.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from './environment';
 
 @NgModule({
   declarations: [
@@ -30,12 +35,16 @@ import { NgxGanttModule } from '@worktile/gantt';
     PlayerYoutubeComponent,
     RecipeUnitComponent,
     RecipeStepComponent,
+    ShareComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     NgxGanttModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]
