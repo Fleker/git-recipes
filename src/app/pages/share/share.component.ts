@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase/compat';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { unitConversion } from 'src/app/unit-matcher';
+import apiKey from '../../gemini'
 
 @Component({
   selector: 'app-share',
@@ -31,7 +32,7 @@ export class ShareComponent implements OnInit {
   parsedRecipe: WritableSignal<any> = signal(undefined)
   parsedRecipeString = signal('')
   isLoading = signal(false);
-  link = ''
+  link = signal('')
 
   constructor(private route: ActivatedRoute, public auth: AngularFireAuth, private firestore: AngularFirestore) {
     if (typeof window !== 'undefined') {
@@ -98,7 +99,6 @@ async parseUrl(url: string) {
     }
 
  async transformWithGemini(description: string, sourceUrl: string): Promise<any> {
-        const apiKey = "AIzaSyB1YJXE4yxiC5PLJBjjEy7d5wFIkm7t6mE"; // FIXME: In a real app, use a secure way to handle API keys.
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
         // The JSON schema provided in the prompt.
@@ -263,6 +263,7 @@ downloadYaml() {
         timestamp: Date.now()
       });
       alert('Recipe uploaded successfully!');
+      this.link.set(`${window.location.origin}/f/${userId}/default-cookbook/${recipeName}`)
       return `/f/${userId}/default-cookbook/${recipeName}`
     } catch (error) {
       console.error('Error uploading recipe:', error);

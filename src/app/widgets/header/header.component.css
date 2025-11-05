@@ -31,3 +31,7 @@ div.sidelinks button {
 div.sidelinks a {
   padding-left: 20px;
 }
+
+app-auth {
+  display: inline-block;
+}

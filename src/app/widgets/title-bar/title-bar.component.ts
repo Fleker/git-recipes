@@ -15,6 +15,7 @@ export class TitleBarComponent implements OnInit {
   @Input('label') label: string = ''
   @Input('recipe-id') recipeId?: string
   hearted?: string
+  db?: string
   author?: string
   recipeName?: string
   forkLink?: string
@@ -24,6 +25,7 @@ export class TitleBarComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       console.log(params)
+      this.db = params.get('db')!
       this.author = params.get('profile')!
       this.recipeName = params.get('repo')!
       this.loadTitlebar()
