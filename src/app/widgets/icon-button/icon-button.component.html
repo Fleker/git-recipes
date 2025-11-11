@@ -1,0 +1,10 @@
+<!-- From Uiverse.io by vinodjangid07 --> 
+ <!-- https://uiverse.io/vinodjangid07/brave-ladybug-0 -->
+<button class="Btn">
+  <span class="text">
+    <ng-content></ng-content>
+  </span>
+  <span class="svgIcon" *ngIf="hasIcon">
+    <ng-content select="[icon]"></ng-content>
+  </span>
+</button>

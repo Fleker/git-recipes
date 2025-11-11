@@ -1,9 +1,16 @@
 <title-bar [stars]='stars' [recipe-id]='recipeId' [label]='data?.recipe'></title-bar>
 
 <styled-card *ngIf="!parsedRecipe()">
+  <br><br>
+  <strong>Enter the video URL here</strong>
+  <br><br>
   <input type="url" placeholder="TikTok or Instagram URL" [(ngModel)]="loadurl" />
-  <button (click)="letsgo()">Go!</button>
-  <span *ngIf="isLoading()">Loading...</span>
+  <br><br>
+  <animated-icon-button (click)="letsgo()">
+    <span>Go!</span>
+    <img icon src="assets/icons/wand_stars.svg" />
+  </animated-icon-button>
+  <span *ngIf="processingState()">{{processingState()}}</span>
 </styled-card>
 
 <styled-card *ngIf="parsedRecipe()">
@@ -76,17 +83,25 @@
   </div>
 </styled-card>
 
-<styled-card *ngIf="parsedRecipe()">
-  <button (click)="downloadYaml()">
-    Download as JSON
-  </button>
-  <button (click)="uploadRecipe()">
-    Save in my cookbook
-  </button>
-  <button (click)="shareRecipe()">
-    Share
-  </button>
-
+<styled-card *ngIf="parsedRecipe() || true">
+  <br><br>
+  <strong>Actions</strong>
+  <br><br>
+  <icon-button (click)="downloadYaml()" [hasIcon]="true">
+    <span>Download as JSON</span>
+    <img icon src="assets/icons/download.svg" />
+  </icon-button>
+  &emsp;
+  <icon-button (click)="uploadRecipe()" [hasIcon]="true">
+    <span>Save in my Cookbook</span>
+    <img icon src="assets/icons/database_upload.svg" />
+  </icon-button>
+  &emsp;
+  <icon-button (click)="shareRecipe()" [hasIcon]="true">
+    <span>Share</span>
+    <img icon src="assets/icons/share.svg" />
+  </icon-button>
   <br>
   <a href="{{link()}}">{{link()}}</a>
+  <br><br>
 </styled-card>

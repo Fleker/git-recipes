@@ -31,7 +31,7 @@ export class ShareComponent implements OnInit {
   loadurl = 'https://www.tiktok.com/@stealth_health_life/video/7433199223354510622'
   parsedRecipe: WritableSignal<any> = signal(undefined)
   parsedRecipeString = signal('')
-  isLoading = signal(false);
+  processingState = signal('')
   link = signal('')
 
   constructor(private route: ActivatedRoute, public auth: AngularFireAuth, private firestore: AngularFirestore) {
@@ -63,7 +63,7 @@ async parseUrl(url: string) {
             alert('Please enter a valid URL.');
             return;
         }
-        this.isLoading.set(true);
+        this.processingState.set('Fetching video...');
 
         try {
             // 1. Fetch the raw description from the URL
@@ -71,6 +71,7 @@ async parseUrl(url: string) {
              if (!description) {
                 throw new Error("Could not retrieve a description from the URL.");
             }
+            this.processingState.set('Processing video...');
 
             // 2. Call Gemini API to transform the description
             const recipeJson = await this.transformWithGemini(description, url);
@@ -81,7 +82,7 @@ async parseUrl(url: string) {
             console.error("Error parsing URL:", error);
             alert(error.message);
         } finally {
-            this.isLoading.set(false);
+            this.processingState.set('');
         }
     }
 

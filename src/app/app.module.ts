@@ -17,6 +17,8 @@ import { RecipeStepComponent } from './widgets/recipe-step/recipe-step.component
 import { NgxGanttModule } from '@worktile/gantt';
 import { ShareComponent } from './pages/share/share.component';
 import { AuthComponent } from './widgets/auth/auth.component';
+import { IconButtonComponent } from './widgets/icon-button/icon-button.component';
+import { AnimatedIconButtonComponent } from './widgets/animated-icon-button/animated-icon-button.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from './environment';
@@ -37,6 +39,8 @@ import { environment } from './environment';
     RecipeStepComponent,
     ShareComponent,
     AuthComponent,
+    IconButtonComponent,
+    AnimatedIconButtonComponent,
   ],
   imports: [
     BrowserModule,
