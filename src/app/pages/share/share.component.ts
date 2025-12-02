@@ -36,20 +36,24 @@ export class ShareComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, public auth: AngularFireAuth, private firestore: AngularFirestore) {
     if (typeof window !== 'undefined') {
-                const urlParams = new URLSearchParams(window.location.search);
-                const recipeData = urlParams.get('recipe');
-                if (recipeData) {
-                    try {
-                        const decodedJson = atob(recipeData);
-                        const recipe = JSON.parse(decodedJson);
-                        this.parsedRecipe.set(recipe);
-                        this.load(this.parsedRecipe(), 'null', 'null', 'null')
-                    } catch (error) {
-                        console.error("Failed to parse recipe from URL:", error);
-                        alert('Could not load recipe from URL.');
-                    }
-                }
-            }
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeData = urlParams.get('recipe');
+      const shareTargetUrl = urlParams.get('url')
+      if (recipeData) {
+        try {
+          const decodedJson = atob(recipeData);
+          const recipe = JSON.parse(decodedJson);
+          this.parsedRecipe.set(recipe);
+          this.load(this.parsedRecipe(), 'null', 'null', 'null')
+        } catch (error) {
+          console.error("Failed to parse recipe from URL:", error);
+          alert('Could not load recipe from URL.');
+        }
+      }
+      if (shareTargetUrl) {
+        this.loadurl = shareTargetUrl
+      }
+    }
   }
 
   async letsgo() {
